@@ -1,7 +1,4 @@
-# sandpaper files
-episodes/*html
-site/*
-!site/README.md
+Dans-exercises
 
 # History files
 .Rhistory
