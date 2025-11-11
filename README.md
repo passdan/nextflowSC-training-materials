@@ -14,20 +14,24 @@ Welcome to the course! In this github repository we have a range of materials wh
 We will be spending three days going from basic introductions to completing a simple RNAseq workflow. We will follow this rough schedule:
 
 ### Day1 
-- [Introduction to Nextflow & this course](https://docs.google.com/presentation/d/1hs2PyLRzU5ioTUCNr-0bK19wYkUfCAKoSm5RD2FqgZw/edit?usp=drive_link)
-- [Coding in a remote environment](https://drive.google.com/file/d/1OjJoj9f84tidXqSxpUZvRekELha8e4GN/view?usp=drive_link)
+- [Introduction to Nextflow & this course (ppt)](https://docs.google.com/presentation/d/1hs2PyLRzU5ioTUCNr-0bK19wYkUfCAKoSm5RD2FqgZw/edit?usp=drive_link)
+- [Coding in a remote environment (video)](https://drive.google.com/file/d/1OjJoj9f84tidXqSxpUZvRekELha8e4GN/view?usp=drive_link)
 - [Basic Scripting in Nextflow]([https://carpentries-incubator.github.io/workflows-nextflow/instructor/04-processes-part1.html](https://carpentries-incubator.github.io/workflows-nextflow/instructor/01-getting-started-with-nextflow.html#processes-channels-and-workflows))
-  - [Resume & the work dir](https://carpentries-incubator.github.io/workflows-nextflow/instructor/10-workflow_checkpoint_caching.html#resume)
+  - [(Further Info) Resume & the work dir](https://carpentries-incubator.github.io/workflows-nextflow/instructor/10-workflow_checkpoint_caching.html#resume)
 - [Channels](https://carpentries-incubator.github.io/workflows-nextflow/instructor/03-channels.html)
 ### Day 2
 - [Processes](https://carpentries-incubator.github.io/workflows-nextflow/instructor/04-processes-part1.html)
+  - [(Further Info) Directives](https://www.nextflow.io/docs/latest/process.html#directives)
+  - [(Further Info) PublishDir](https://www.nextflow.io/docs/latest/reference/process.html#publishdir)
 - [Workflows](https://carpentries-incubator.github.io/workflows-nextflow/instructor/06-workflow.html#workflow)
-  - [Named Workflows aka subworkflows](https://www.nextflow.io/docs/latest/workflow.html#named-workflows)
+  - [(Further Info) Named Workflows aka subworkflows](https://www.nextflow.io/docs/latest/workflow.html#named-workflows)
 - [Operators](https://carpentries-incubator.github.io/workflows-nextflow/instructor/07-operators.html#operators)
 - [Configuration](https://carpentries-incubator.github.io/workflows-nextflow/instructor/09-configuration.html)
+- [(Further info) Reporting/logs](https://carpentries-incubator.github.io/workflows-nextflow/instructor/08-reporting.html)
 ### Day 3
 - [Executors, containers & environments](https://carpentries-incubator.github.io/workflows-nextflow/instructor/09-configuration.html#configuring-execution-platforms)
 - [DIY: RNA-Seq pipeline](https://carpentries-incubator.github.io/workflows-nextflow/instructor/11-Simple_Rna-Seq_pipeline.html)
+- [Installing & Setting up nextflow in your environment (ppt)](https://docs.google.com/presentation/d/1hs2PyLRzU5ioTUCNr-0bK19wYkUfCAKoSm5RD2FqgZw/edit?usp=drive_link)
 - [nf-core](https://carpentries-incubator.github.io/workflows-nextflow/instructor/12-nfcore.html)
   - [Pipelines](https://nf-co.re/pipelines)
   - [Modules](https://nf-co.re/modules)
