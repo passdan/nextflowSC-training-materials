@@ -4,24 +4,20 @@ teaching: 30
 exercises: 15
 ---
 
-:::::::::::::::::::::::::::::::::::::::: questions
+## Questions
 
 - A task failed — where do I look?
 - What are all the hidden files in a work directory?
 - How do I reproduce a failing command by hand?
 - Why did `-resume` re-run a task I didn't change?
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::: objectives
+## Objectives
 
 - Read and interpret a Nextflow error message.
 - Inspect the contents of a task's work directory.
 - Re-run a failed command manually to debug it.
 - Understand common causes of cache misses with `-resume`.
 - Use stub runs to test pipeline logic quickly.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Pipelines fail. The skill that separates a frustrated beginner from a productive Nextflow user is knowing exactly where to look. Almost every answer is in the **work directory** of the failing task.
 
@@ -92,13 +88,9 @@ $ bash .command.sh
 
 Now you can edit the command, check tool versions, inspect input files, and iterate quickly — without re-running the whole pipeline. Once you have a working command, fix the corresponding process in your script.
 
-::::::::::::::::::::::::::::::::::::::: callout
-
 ## Tip: `nextflow log` and the `.nextflow.log` file
 
 `nextflow log` lists previous runs, and `nextflow log <run_name> -f workdir,name,status` will print the work directory of every task so you can find the one you want. The hidden `.nextflow.log` file in your launch directory holds the full, detailed log of the most recent run.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Common `-resume` cache misses
 
@@ -140,7 +132,7 @@ process INDEX {
 $ nextflow run main.nf -stub-run
 ```
 
-::::::::::::::::::::::::::::::::::::::: keypoints
+## Key points
 
 - Read errors from the bottom up; the **Command error** and **Work dir** lines tell you most of what you need.
 - Every task has hidden `.command.*` files in its work directory.
@@ -148,5 +140,3 @@ $ nextflow run main.nf -stub-run
 - Exit `127` = command not found, `137` = killed (often out of memory).
 - `-resume` cache misses usually come from changed inputs, scripts, parameters, or non-deterministic ordering.
 - Use a `stub:` block with `-stub-run` to test workflow logic without running the real tools.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::

@@ -4,7 +4,7 @@ teaching: 20
 exercises: 40
 ---
 
-::::::::::::::::::::::::::::::::::::::: objectives
+## Objectives
 
 - Create a simple RNA-Seq pipeline.
 - Use the `log.info` function to print all the pipeline parameters.
@@ -12,18 +12,13 @@ exercises: 40
 - Use a conda `environment.yml` file to install the pipeline's software requirement.
 - Produce an execution report and generate run metrics from a pipeline run.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
+## Questions
 
 - How can I create a Nextflow pipeline from a series of unix commands and input data?
 - How do I log my pipelines parameters?
 - How can I manage my pipeline software requirements?
 - How do I know when my pipeline has finished?
 - How do I see how much resources my pipeline has used?
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
 
 We're now set to develop a multi-step pipeline using Nextflow, for analyzing and performing quality control on our yeast RNA-Seq experiment.
 
@@ -50,13 +45,11 @@ $ salmon quant --threads <cpus> --libType=U -i <index> -1 <read1> -2 <read2> -o 
 
 4. **Aggregating Reports with MultiQC**: Finally, the pipeline employs [MultiQC](https://multiqc.info/) to aggregate logs and outputs from the  FastQC and Salmon. MultiQC scans the outputs and compiles a summary report, which provides an overview of the results and highlights any areas that may need further investigation.
 
-
 ```bash
 $ multiqc .
 ```
 
 This pipeline  provides an overview of RNA-Seq data, from quality control to expression quantification, culminating in an aggregated report for easy interpretation of the results.
-
 
 To start move the episode's nextflow scripts in the `scripts/rnaseq_pipeline` folder to your home directory.
 
@@ -65,8 +58,6 @@ $ cp scripts/rnaseq_pipeline/* .
 ```
 
 This folder contains files we will be modifying in this episode.
-
-
 
 ## Define the pipeline parameters
 
@@ -98,23 +89,18 @@ $ nextflow run script1.nf --reads "data/yeast/reads/ref1*_{1,2}.fq.gz"
 reads: data/yeast/reads/ref1*_{1,2}.fq.gz
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Add a parameter
+## Exercise: Add a parameter
 
 Modify the `script1.nf` adding a third parameter named `outdir` and set it to `results`. This parameter will be used as the pipeline output directory.
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 params.outdir = "results"
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 It can be useful to print the pipeline parameters to the screen. This can be done using the the `log.info` command and a multiline string statement. The string method `.stripIndent()` command is used to remove the indentation on multi-line strings. `log.info` also saves the output to the log execution file `.nextflow.log`.
 
@@ -125,9 +111,7 @@ log.info """\
          .stripIndent()
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## log.info
+## Exercise: log.info
 
 Modify the `script1.nf` to print all the pipeline parameters by using a single `log.info` command and a multiline string statement.
 See an example [here](https://github.com/nextflow-io/rnaseq-nf/blob/3b5b49f/main.nf#L41-L48).
@@ -138,9 +122,8 @@ $ nextflow run script1.nf
 
 Look at the output log `.nextflow.log`.
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 Below is an example log.info command printing all the pipeline parameters.
 
@@ -159,9 +142,7 @@ log.info """\
 $ less .nextflow.log
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ### Recap
 
@@ -269,7 +250,6 @@ The execution will fail because the program the process, `INDEX` , has not been 
 
 Add the `transcriptome_ch` channel to the `INDEX` process call.
 
-
 ```groovy
 [truncated]
 workflow {
@@ -278,7 +258,6 @@ workflow {
 ```
 
 Now try to run it again by using the command:
-
 
 ```bash 
 $ nextflow run script2.nf
@@ -304,18 +283,13 @@ The `INDEX` process also defines one `output` channel.
 This channel will be  populated with `index` directory created during process.
 To view the contents of the channel we can use the `view` operator.
 
-
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## View the contents of the index_ch
+## Exercise: View the contents of the index_ch
 
 1. Assign the output of the `INDEX` process to the variable `index_ch`.
 2. View the contents of the `index_ch` channel by using the `view` operator.
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 [..truncated..]
@@ -325,9 +299,7 @@ workflow {
 }
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ### Recap
 
@@ -427,16 +399,13 @@ it will return the message .
 No such file: data/yeast/reads/*_1,2}.fq.gz
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Read in all read pairs
+## Exercise: Read in all read pairs
 
 1. Add  the `checkIfExists: true` argument to the `fromFilePairs` channel factory in `script3.nf`.
 2. Using the command line parameter `--reads`, add a glob pattern to read in all the read pairs files from the `data/yeast/reads` directory.
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 read_pairs_ch =Channel.fromFilePairs(params.reads, checkIfExists: true)
@@ -459,9 +428,7 @@ nextflow run script3.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz'
 [etoh60_1, [data/yeast/reads/etoh60_1_1.fq.gz, data/yeast/reads/etoh60_1_2.fq.gz]]
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ### Recap
 
@@ -558,54 +525,42 @@ When your input channel contains multiple data items Nextflow, where possible, p
 
 In these situations it is useful to add a `tag` directive to add some descriptive text to instance of the process being run.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Add a tag directive
+## Exercise: Add a tag directive
 
 Add a `tag` directive to the `QUANT` process of `script4.nf` to provide a more readable execution log.
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 tag "quantification on $pair_id"
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 Data produced by the workflow during a process will be saved in the working directory, by default a directory named `work`.
 The working directory should be considered a temporary storage space and any data you wish to save at the end of the workflow should be specified in the process output with the final storage location  defined in the  `publishDir` directive.
 
 **Note:** by default the `publishDir` directive creates a symbolic link to the files in the working directory; this behaviour can be changed using the `mode` parameter.
 
-::::::::::::::::::::::::::::::::::::::::: callout
-
 ## Modern alternative: workflow outputs
 
 `publishDir` is now **deprecated** in favour of [workflow outputs](05-processes-part2.md#workflow-outputs-recommended) (the `output` / `publish` block, finalised in Nextflow 25.10). We use `publishDir` in this exercise because it remains common in existing pipelines and nf-core modules, but for new pipelines prefer declaring outputs in the entry workflow. See the [migration guide](https://nextflow.io/docs/latest/tutorials/workflow-outputs.html).
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Add a publishDir directive
 
 Add a `publishDir` directive to the quantification process of `script4.nf` to store the process results into folder specified by the `params.outdir` Nextflow variable. Include the `publishDir` `mode` option to copy the output.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
+## Exercise
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 publishDir "${params.outdir}/quant", mode:'copy'
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ### Recap
 
@@ -666,18 +621,16 @@ $ nextflow run script5.nf -resume
 
 The `FASTQC` process will not run as the process has not been declared in the workflow scope.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
+## Exercise: Add FASTQC process
 
-## Add FASTQC process
- 
 Add the `FASTQC` process to the `workflow scope` of `script5.nf` adding the `read_pairs_ch` channel as an input.
 Run the nextflow script using the `-resume` option.
 
 ```bash
 $ nextflow run script5.nf -resume
 ```
-:::::::::::::::  solution 
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy
 workflow {
@@ -691,9 +644,7 @@ fastqc_ch=FASTQC(read_pairs_ch)
 
 }
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ### Recap
 
@@ -736,9 +687,7 @@ ch1.collect().view()
 [1, 2, 3]
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Combining operators
+## Exercise: Combining operators
 
 Which is the correct way to combined `mix` and `collect` operators so that you have a single channel with one List item?
 
@@ -747,16 +696,13 @@ Which is the correct way to combined `mix` and `collect` operators so that you h
 3. `fastqc_ch.mix(quant_ch).collect()`
 4. `fastqc_ch.collect(quant_ch).mix()`
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 You need to use the `mix` operator first to combine the channels followed by the `collect` operator to
 collect all the items in a single item.
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 In `script6.nf` we use the statement `quant_ch.mix(fastqc_ch).collect()` to combine and collect the outputs of the `QUANT` and `FASTQC` process to
 create the required input for the `MULTIQC` process.
@@ -875,9 +821,7 @@ Nextflow is able to produce multiple reports and charts providing several runtim
 
 More information can be found [here](https://www.nextflow.io/docs/latest/tracing.html).
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Metrics and reports
+## Exercise: Metrics and reports
 
 Run the script7.nf with the reporting options as shown below:
 
@@ -889,40 +833,23 @@ $ nextflow run script7.nf -resume -with-report -with-trace -with-timeline -with-
 2. Check the content of the file `trace.txt` or view `timeline.html` to find the longest running process.
 3. View the dag.png
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 The `INDEX` process should be the longest running process.
 dag.png
 ![](fig/dag.png){alt='dag'}
 The vertices in the graph represent the pipeline's processes and operators, while the edges represent the data connections (i.e. channels) between them.
 
-
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::::  callout
+</details>
 
 ## short running tasks
 
 Note: runtime metrics may be incomplete for run short running tasks..
 
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
+## Key points
 
 - Nextflow can combined tasks (processes) and manage data flows using channels into a single pipeline/workflow.
 - A Workflow can be parameterise using `params` . These value of the parameters can be captured in a log file using  `log.info`
 - Nextflow can handle a workflow's software requirements using several technologies including the `conda` package and enviroment manager.
-- Workflow steps are connected via their `inputs` and `outputs` using `Channels`.
-- Intermediate pipeline results can be transformed using Channel `operators` such as `combine`.
-- Nextflow can execute an action when the pipeline completes the execution using the `workflow.onComplete` event handler to print a confirmation message.
-- Nextflow is able to produce multiple reports and charts providing several runtime metrics and execution information using the command line options `-with-report`, `-with-trace`, `-with-timeline` and produce a graph using `-with-dag`.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
+- Workflow steps

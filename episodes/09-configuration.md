@@ -4,7 +4,7 @@ teaching: 30
 exercises: 15
 ---
 
-::::::::::::::::::::::::::::::::::::::: objectives
+## Objectives
 
 - Understand the difference between workflow implementation and configuration.
 - Understand the difference between configuring Nextflow and a Nextflow script.
@@ -16,17 +16,13 @@ exercises: 15
 - Be able to override existing settings.
 - Be able to inspect configuration settings before running a workflow.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
+## Questions
 
 - What is the difference between the workflow implementation and the workflow configuration?
 - How do I configure a Nextflow workflow?
 - How do I assign different resources to different processes?
 - How do I separate and provide configuration for different computational systems?
 - How do I change configuration settings from the default settings provided by the workflow?
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Nextflow configuration
 
@@ -55,8 +51,6 @@ host environment such as `$PATH`, `$HOME`, `$PWD`, etc.
 my_home_dir = "$HOME"
 ```
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
 ## Accessing variables in your configuration file
 
 Generally, variables and functions defined in a
@@ -70,8 +64,6 @@ workflow {
     MY_PROCESS( params.input )
 }
 ```
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Settings are also partitioned into
 scopes, which govern the behaviour of different elements of the
@@ -143,8 +135,6 @@ provided higher in the list.
 
 Existing configuration can be completely ignored by using `-C <custom.config>` to use only configuration provided in the `custom.config` file.
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
 ## Configuring Nextflow vs Configuring a Nextflow workflow
 
 Parameters starting with a single dash `-` (e.g., `-c my_config.config`) are configuration
@@ -158,12 +148,7 @@ be provided within a configuration file, such as
 `resume = true` (`-resume`), and do not
 belong to a configuration scope.
 
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Determine script output
+## Exercise: Determine script output
 
 Determine the outcome of the following script executions.
 Given the script `print_message.nf`:
@@ -202,20 +187,15 @@ What is the outcome of the following commands?
 3. `nextflow run print_message.nf -c print_message.config`
 4. `nextflow run print_message.nf -c print_message.config --message '¿Que tal?'`
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 1. 'hello' - Workflow script uses the value in `print_message.nf`
 2. '¿Que tal?' - The command-line parameter overrides the script setting.
 3. 'Are you tired?' - The configuration overrides the script setting
 4. '¿Que tal?' - The command-line parameter overrides both the script and configuration settings.
   
-  
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ## Configuring process behaviour
 
@@ -240,8 +220,6 @@ process {
 }
 ```
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
 ## Unit values
 
 Memory and time duration units can be specified either using a string
@@ -256,8 +234,6 @@ separated by a dot character and not enclosed by quote characters.
 | '500 MB'        | 500\.MB         | 524288000 bytes       | 
 | '1 min'         | 1\.min          | 60 seconds            | 
 | '1 hour 25 sec' | \-              | 1 hour and 25 seconds | 
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 These settings are applied to all processes in the workflow. A
 process selector can be used to apply the configuration to a
@@ -362,9 +338,7 @@ priority rules are applied (from highest to lowest):
 3. Process specific directive defined in the workflow script.
 4. Process generic `process` configuration.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Process selectors
+## Exercise: Process selectors
 
 Create a Nextflow config, `process-selector.config`, specifying
 different `cpus` and `memory` resources for the two processes
@@ -400,9 +374,8 @@ workflow {
 }
 ```
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy
 // process-selector.config
@@ -435,9 +408,7 @@ P2: Using 2 cpus and 1 GB memory.
 P1: Using 1 cpus and 2 GB memory.
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 #### Dynamic expressions
 
@@ -479,7 +450,6 @@ See [https://www.nextflow.io/docs/latest/executor.html](https://www.nextflow.io/
 full list of supported executors.
 
 ![A diagram illustrating the different executors available in Nextflow. The diagram shows a configuration file feeding into Nextflow, which has both local and grid executors. The local executor connects to the Local OS and a standalone computer, while the grid executor connects to a batch scheduler and NFS, which further connects to various computing resources such as UNIVA, SLURM, Platform Computing, PBS Works, Kubernetes, and Amazon Web Services.](fig/nf-executors.png "digram of different nextflow-executors")
-
 
 The default executor configuration is defined within the `executor`
 scope ([https://www.nextflow.io/docs/latest/config.html#scope-executor](https://www.nextflow.io/docs/latest/config.html#scope-executor)).
@@ -550,8 +520,6 @@ $ nextflow run main.nf -c slurm.config
 
 For a cloud platform such as AWS Batch you would instead set `process.executor = 'awsbatch'`, a `process.queue` pointing at your Batch queue, and an `aws.region`/work directory on S3. The principle is identical: describe *where* to run in config, leave the workflow code untouched.
 
-::::::::::::::::::::::::::::::::::::::::: callout
-
 ## Configuration for reproducibility
 
 A few config settings make runs reproducible and portable, and are worth adopting as standard:
@@ -567,8 +535,6 @@ A few config settings make runs reproducible and portable, and are worth adoptin
 
 - **Pin pipeline and tool versions** — run remote pipelines at a fixed revision with `-r` (e.g. `nextflow run nf-core/rnaseq -r 3.18.0`), and pin software versions in your container/conda specifications rather than using `latest`.
 - **Keep platform-specific settings in profiles** (see below) so the pipeline stays portable across machines.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Configuring software requirements
 
@@ -619,15 +585,14 @@ creation of a Conda environment by the Conda package manager.
 For example, `conda.cacheDir` specifies the path where the Conda
 environments are stored. By default this is in `conda` folder of the `work` directory.
 
-::::::::::::::::::::::::::::::::::::: instructor
+<details>
+<summary><b>Instructor note</b></summary>
 
 This following exercise necessitates the installation of conda, a package and environment management software, on your system for downloading and installing the FASTP software. If conda is not installed, then this exercise should be omitted.
 
-:::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Define a software requirement in the configuration file using conda
+## Exercise: Define a software requirement in the configuration file using conda
 
 We are going to define a software requirement using the "conda" directive.
 
@@ -640,7 +605,6 @@ Each time the `process` is called we are going to run `fastp -A -i ${read} -o ou
 * The `-i` flag specifies the input file. `${read}` represents a nextflow variable that contains the path to the sequencing reads.
 * `-o`: The `-o` flag specifies the output file. In this case, the processed sequencing data will be written to a file named `out.fq`.
 * `2>&1`: This is a shell redirection command, it means that both the regular output and error messages will be sent to the console.
-
 
 1. Create a config file for the Nextflow script `configuration_fastp.nf`.
 
@@ -674,9 +638,8 @@ process FASTP {
 }
 ```
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy
 // fastp.config
@@ -721,9 +684,7 @@ JSON report: fastp.json
 HTML report: fastp.html
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ### Software configuration using Docker
 
@@ -775,8 +736,6 @@ process.container = 'https://depot.galaxyproject.org/singularity/salmon:1.5.2--h
 singularity.enabled = true
 ```
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
 ## Container protocols
 
 The following protocols are supported:
@@ -788,9 +747,6 @@ The following protocols are supported:
 - `https://`: download the singularity image from the given URL.
 - `file://`: use a singularity image on local computer storage.
   
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
 ## Configuration profiles
 
 One of the most powerful features of Nextflow configuration is to
@@ -832,51 +788,4 @@ profiles {
 This configuration defines three different profiles: `standard`,
 `cluster` and `cloud` that set different process configuration
 strategies depending on the target execution platform. By
-convention the standard profile is implicitly used when no
-other profile is specified by the user. To enable a specific
-profile use `-profile` option followed by the profile name:
-
-```bash
-nextflow run <your script> -profile cluster
-```
-
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Configuration order
-
-Settings from profiles will override general settings
-in the configuration file. However, it is also important
-to remember that configuration is evaluated in the order it
-is read in. For example, in the following example, the `publishDir`
-directive will always take the value 'results' even when the
-profile `hpc` is used. This is because the setting is evaluated
-before Nextflow knows about the `hpc` profile. If the `publishDir`
-directive is moved to after the `profiles` scope, then `publishDir`
-will use the correct value of `params.results`.
-
-```groovy
-params.results = 'results'
-process.publishDir = params.results
-profiles {
-    hpc {
-        params.results = '/long/term/storage/results'
-    }
-}
-```
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
-
-- Nextflow configuration can be managed using a Nextflow configuration file.
-- Nextflow configuration files are plain text files containing a set of properties.
-- You can define process specific settings, such as cpus and memory, within the `process` scope.
-- You can assign different resources to different processes using the process selectors `withName` or `withLabel`.
-- You can define a profile for different configurations using the `profiles` scope. These profiles can be selected when launching a pipeline execution by using the `-profile` command-line option
-- Nextflow configuration settings are evaluated in the order they are read-in.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
+convention 

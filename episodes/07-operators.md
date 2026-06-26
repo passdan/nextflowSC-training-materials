@@ -4,23 +4,19 @@ teaching: 30
 exercises: 10
 ---
 
-::::::::::::::::::::::::::::::::::::::: objectives
+## Objectives
 
 - Understand what Nextflow operators are.
 - Modify the contents/elements of a channel using operators.
 - Perform filtering and combining operations on a channel object.
 - Use the `splitCsv` operator to parse the contents of  CSV file into a channel .
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
+## Questions
 
 - How do I perform operations, such as filtering, on channels?
 - What are the different kinds of operations I can perform on channels?
 - How do I combine operations?
 - How can I use a CSV file to process data into a Channel?
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Operators
 
@@ -222,14 +218,9 @@ channel
 4
 ```
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
 ### Closures
 
 In the above example we have removed the brackets around the filter condition e.g. `filter{ it<5}`, since it specifies a closure as the operator's argument. This is language short for `filter({ it<5})`
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ##### Literal value
 
@@ -246,9 +237,7 @@ channel
 X
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-### Filter a channel
+### Exercise: Filter a channel
 
 Add two channel filters to the Nextflow script below to view only the even numbered chromosomes.
 
@@ -260,9 +249,8 @@ chr_ch = channel
  .view()
 ```
 
-:::::::::::::::  solution
-
-### Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 chr_ch = channel
@@ -286,9 +274,7 @@ chr_ch = channel
 22
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ### Modifying the contents of a channel
 
@@ -354,9 +340,7 @@ file data/yeast/reads/etoh60_3_2.fq.gz contains 26254 reads
 file data/yeast/reads/etoh60_3_1.fq.gz contains 26254 reads
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-### map operator
+### Exercise: map operator
 
 Add a `map` operator to the Nextflow script below to transform the contents into a tuple with the file and the file's name, using the `.getName` method. The `getName` method gives the filename. Finally `view` the channel contents.
 
@@ -366,9 +350,8 @@ Add a `map` operator to the Nextflow script below to transform the contents into
  .view()
 ```
 
-:::::::::::::::  solution
-
-### Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 ch = channel
@@ -377,9 +360,7 @@ ch = channel
   .view({file, name -> "file's name: $name"})
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 #### Converting a list into multiple items
 
@@ -471,9 +452,7 @@ outputs,
 
 This operator is useful to process altogether all elements for which there's a common property or a grouping key.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-### Group Tuple
+### Exercise: Group Tuple
 
 ```groovy 
 channel.fromPath('data/yeast/reads/*.fq.gz')
@@ -488,9 +467,8 @@ Modify the Nextflow script above to add the `map` operator to create a tuple wit
 
 Finally group together all files having the same common prefix using the `groupTuple` operator and `view` the contents of the channel.
 
-:::::::::::::::  solution
-
-### Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 ch = channel.fromPath('data/yeast/reads/*.fq.gz')
@@ -499,9 +477,7 @@ ch = channel.fromPath('data/yeast/reads/*.fq.gz')
     .view()
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ### Merging Channels
 
@@ -559,7 +535,6 @@ The resulting channel emits:
 [wt, wt_1.fq, wt_2.fq]
 [mut, mut_1.fq, mut_2.fq]
 ```
-
 
 ### Maths operators
 
@@ -668,9 +643,7 @@ data/yeast/reads/ref1_1.fq.gz
 data/yeast/reads/ref2_1.fq.gz
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-### Parse a CSV file
+### Exercise: Parse a CSV file
 
 Modify the Nextflow script to print the first column `sample_id`.
 
@@ -679,9 +652,8 @@ csv_ch=channel
   .fromPath('data/yeast/samples.csv')
 ```
 
-:::::::::::::::  solution
-
-### Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy
  csv_ch=channel
@@ -691,9 +663,7 @@ csv_ch=channel
 csv_ch.view({it.sample_id})
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 #### Tab delimited files
 
@@ -725,38 +695,3 @@ ref2,data/yeast/reads/ref2_1.fq.gz,data/yeast/reads/ref2_2.fq.gz
 ```
 
 ```groovy
-reads_ch = Channel
-    .fromPath('data/yeast/samples.csv')
-    .splitCsv(header: true)
-    .map { row ->
-        def meta = [ id: row.sample_id ]
-        def reads = [ file(row.fastq_1), file(row.fastq_2) ]
-        return tuple(meta, reads)
-    }
-
-reads_ch.view()
-```
-
-```output
-[[id:ref1], [.../ref1_1.fq.gz, .../ref1_2.fq.gz]]
-[[id:ref2], [.../ref2_1.fq.gz, .../ref2_2.fq.gz]]
-```
-
-Carrying metadata in a `meta` map means a process can name its outputs after the sample, and downstream operators can group or join samples by their metadata. This `[ meta, reads ]` convention is worth recognising, as you will see it throughout nf-core modules.
-
-### More resources
-
-See the operators [documentation](https://www.nextflow.io/docs/latest/operator.html) on the Nextflow web site.
-
-
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
-
-- Nextflow *operators* are methods that allow you to modify, set or view channels.
-- Operators can be separated in to several groups; filtering , transforming , splitting , combining , forking and Maths operators
-- To use an operator use the dot notation after the Channel object e.g. `my_ch.view()`.
-- You can parse text items emitted by a channel, that are formatted using the CSV format,  using the `splitCsv` operator.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-

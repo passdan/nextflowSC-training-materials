@@ -4,22 +4,18 @@ teaching: 30
 exercises: 20
 ---
 
-:::::::::::::::::::::::::::::::::::::::: questions
+## Questions
 
 - How do I know my pipeline still works after I change it?
 - How do I write an automated test for a process?
 - What does the nf-core community use to test pipelines?
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::: objectives
+## Objectives
 
 - Explain why automated testing matters for reproducible pipelines.
 - Install nf-test and generate a test for a process.
 - Write `when` and `then` blocks with assertions.
 - Run the test suite and interpret the results.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Why test a pipeline?
 
@@ -124,15 +120,12 @@ SUCCESS: Executed 1 tests in 12.3s
 
 A non-zero exit status and a `FAILED` line tell CI (and you) that something broke.
 
-::::::::::::::::::::::::::::::::::::::: challenge
-
-## Write a test for QUANT
+## Exercise: Write a test for QUANT
 
 Generate and complete a test for the `QUANT` process in `modules/rnaseq-tasks.nf`. Provide an index (you can use the output of a setup step or a small fixture) and a read pair as inputs, and assert that the process succeeds and produces an output directory.
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 A minimal version, using nf-test's `setup` to build the index first:
 
@@ -173,24 +166,16 @@ nextflow_process {
 }
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::: callout
+</details>
 
 ## Testing in nf-core
 
 Every nf-core module and pipeline ships with nf-test tests that run automatically on every pull request. When you create a pipeline with `nf-core pipelines create`, the testing scaffolding is generated for you. Writing tests as you go is considered best practice for any production pipeline.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::: keypoints
+## Key points
 
 - Automated tests let you change a pipeline without silently breaking it.
 - nf-test is the community-standard framework and underpins nf-core CI.
 - A process test has a `when` block (inputs) and a `then` block (assertions).
 - `snapshot()` records and compares full outputs, catching changes in results.
 - Run the suite with `nf-test test`; update snapshots with `--update-snapshot`.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::

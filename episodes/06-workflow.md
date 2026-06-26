@@ -4,19 +4,15 @@ teaching: 20
 exercises: 20
 ---
 
-::::::::::::::::::::::::::::::::::::::: objectives
+## Objectives
 
 - Create a Nextflow workflow joining multiple processes.
 - Understand how to to connect processes via their inputs and outputs within a workflow.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
+## Questions
 
 - How do I connect channels and processes to create a workflow?
 - How do I invoke a process inside a workflow?
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Workflow
 
@@ -27,15 +23,11 @@ Our previous episodes have shown us how to parameterise workflows using `params`
 We can connect processes to create our pipeline inside a `workflow` scope.
 The  workflow scope starts with the keyword `workflow`, followed by an optional name and finally the workflow body delimited by curly brackets `{}`.
 
-::::::::::::::::::::::::::::::::::::::::  callout
-
 ## Implicit workflow
 
 In contrast to processes, the workflow definition in Nextflow does not require a name. In Nextflow, if you don't give a name to a workflow, it's considered the main/implicit starting point of your workflow program.
 
 A named workflow is a `subworkflow` that can be invoked from other workflows, subworkflows are not covered in this lesson, more information can be found in the official documentation [here](https://www.nextflow.io/docs/latest/workflow.html).
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### Invoking processes with a workflow
 
@@ -186,9 +178,7 @@ workflow {
 
 In this example `params.reads`, defined outside the workflow scope, can be accessed inside the `workflow` scope.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Workflow
+## Exercise: Workflow
 
 Connect the output of the process `FASTQC` to `PARSEZIP` in the Nextflow script `workflow_exercise.nf`.
 
@@ -234,9 +224,8 @@ workflow {
 }
 ```
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 //workflow_exercise.nf
@@ -295,21 +284,11 @@ $ wc -l  results/fqpass/pass_basic.txt
 The file `results/fqpass/pass_basic.txt` should have 18 lines.
 If you only have two lines it might mean that you did not use `collect()` operator on the FASTC output channel.
 
+</details>
 
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
+## Key points
 
 - A Nextflow workflow is defined by invoking `processes` inside the `workflow` scope.
 - A process is invoked like a function inside the `workflow` scope passing any required input parameters as arguments. e.g. `FASTQC(reads_ch)`.
 - Process outputs can be accessed using the `out` attribute for the respective `process` object or assigning the output to a Nextflow variable. 
 - Multiple outputs from a single process can be accessed using the list syntax `[]` and it's index or by referencing the a named process output .
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-

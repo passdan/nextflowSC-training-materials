@@ -27,7 +27,7 @@ for building and sharing reproducible data science workflows.
 3. The learner will be able to write a Nextflow configuration file to alter the computational resources allocated to a process.
 4. The learner will use nf-core to run a community curated pipeline.
 
-::::::::::::::::::::::::::::::::::::::::::  prereq
+## Prerequisites
 
 ## Prerequisites
 
@@ -39,10 +39,3 @@ It is helpful to be familiar with using another programming language, to the lev
 [R for Reproducible Scientific Analysis](https://swcarpentry.github.io/r-novice-gapminder),
 although this lesson does not specifically rely on Python or R.
 No previous knowledge of Nextflow, other workflow software, or Groovy is required.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
-
-

@@ -4,7 +4,7 @@ teaching: 30
 exercises: 10
 ---
 
-::::::::::::::::::::::::::::::::::::::: objectives
+## Objectives
 
 - Define outputs to a process.
 - Understand how to handle grouped input and output using the tuple qualifier.
@@ -12,17 +12,13 @@ exercises: 10
 - Use process directives to control execution of a process.
 - Use the `publishDir` directive to save result files to a directory.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
+## Questions
 
 - How do I get data, files, and values,  out of processes?
 - How do I handle grouped input and output?
 - How can I control when a process is executed?
 - How do I control resources, such as number of CPUs and memory, available to processes?
 - How do I save output/results from a process?
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Outputs
 
@@ -207,9 +203,7 @@ executor >  local (1)
 - Glob pattern matches against both files and directories path.
 - When a two stars pattern `**` is used to recurse through subdirectories, only file paths are matched i.e. directories are not included in the result list.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Output channels
+## Exercise: Output channels
 
 Modify the nextflow script `process_exercise_output.nf` to include an output block that captures the different output file `${chr}_seqids.txt`.
 
@@ -239,9 +233,8 @@ workflow {
 }
 ```
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 //process_exercise_output_answer.nf
@@ -271,9 +264,7 @@ workflow {
 }
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ### Grouped inputs and outputs
 
@@ -364,9 +355,7 @@ The output is now a tuple containing the sample id and the combined fastq files.
 [ref1, work/2d/a073d34b5b3231b1f57872599bd308/ref1.fq]
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Composite inputs and outputs
+## Exercise: Composite inputs and outputs
 
 Fill in the blank \_\_\_ input and output qualifiers for `process_exercise_tuple.nf`.
 **Note:** the output for the COMBINE\_REPS process.
@@ -397,9 +386,8 @@ workflow{
 }
 ```
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 //process_exercise_tuple_answer.nf
@@ -437,9 +425,7 @@ executor >  local (3)
 [ref1, work/75/f4a44d0bc761fa4774c2f23a465766/ref1_R1.fq.gz, work/75/f4a44d0bc761fa4774c2f23a465766/ref1_R2.fq.gz]
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ## Conditional execution of a process
 
@@ -549,10 +535,7 @@ Another commonly used directive is memory specification: `memory`.
 
 A complete list of directives is available at this [link](https://www.nextflow.io/docs/latest/process.html#directives).
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Adding directives
-
+## Exercise: Adding directives
 
 Many software tools allow users to configure the number of CPU threads used, optimizing performance for faster and more efficient data processing in high-throughput sequencing tasks.
 
@@ -593,9 +576,8 @@ workflow {
 }
 ```
 
-:::::::::::::::  solution
-
-## solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 //process_directives_answer.nf
@@ -636,9 +618,7 @@ executor >  local (3)
 [ref1, work/90/de11251d362f494d6650789d9f8c1d/fastqc_out]
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ## Organising outputs
 
@@ -705,23 +685,15 @@ executor >  local (1)
 
 The merged file is published to `results/merged_reads/`. Because publishing is described in the entry workflow rather than inside the process, the same `COMBINE_READS` process can be reused in other pipelines without dragging its output paths along with it.
 
-::::::::::::::::::::::::::::::::::::::::: callout
-
 ## Why the change from `publishDir`?
 
 Defining outputs in the workflow (rather than per-process) means publishing logic lives in one place, processes stay reusable, and channel metadata is easier to handle. `publishDir` still works for now but is deprecated and may be removed in a future release, so prefer workflow outputs for new pipelines. See the official [migration guide](https://nextflow.io/docs/latest/tutorials/workflow-outputs.html).
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
 ### The publishDir directive (legacy)
-
-::::::::::::::::::::::::::::::::::::::::: callout
 
 ## Deprecated
 
 The `publishDir` directive is **deprecated** in favour of [workflow outputs](#workflow-outputs-recommended) (above). It is documented here because you will encounter it throughout existing pipelines, including many nf-core modules.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Files created by a `process` are stored in a task specific working directory which is considered as temporary. Normally this is under the `work` directory, which can be deleted upon completion.
 
@@ -790,14 +762,9 @@ In the above example, the `publishDir "results/merged_reads"`,  creates a symbol
 
 A symbolic link, often referred to as a symlink, is a type of file that serves as a reference or pointer to another file or directory, allowing multiple access paths to the same resource without duplicating its actual data
 
-::::::::::::::::::::::::::::::::::::::::  callout
-
 ## publishDir
 
 The publishDir output is relative to the path the pipeline run has been launched. Hence, it is a good practice to use [implicit variables](https://www.nextflow.io/docs/latest/script.html?highlight=projectdir#script-implicit-variables) like `projectDir` to specify publishDir value.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### publishDir parameters
 
@@ -835,144 +802,4 @@ process SPLIT_FASTA {
   script:
   """
   zgrep  '^>' $transcriptome > sequence_ids.txt
-  zgrep -v '^>' $transcriptome > sequence.txt
-  """
-}
-// Both 'Channel' and 'channel' keywords work to generate channels.
-// However, it is a good practice to be consistent through the whole pipeline development
-transcriptome_ch = channel.fromPath(params.transcriptome)
-
-workflow {
-  SPLIT_FASTA(transcriptome_ch)
-  // use the view operator to display contents of the channel
-  SPLIT_FASTA.out.view()
-}
-```
-
-```bash
-$ nextflow run process_publishDir_semantic.nf
-```
-
-```output
-N E X T F L O W  ~  version 26.04.2
-Launching `process_publishDir_semantic.nf` [golden_poisson] - revision: 421a604840
-
-executor >  local (1)
-[be/950786] process > SPLIT_FASTA (1) [100%] 1 of 1 ✔
-```
-
-We can now use the `ls results/*` command to examine the results directory.
-
-```bash 
-$ls results/*
-```
-
-```output
-results/ids:
-sequence_ids.txt
-
-results/sequence:
-sequence.txt
-```
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Publishing results
-
-Add a `publishDir` directive to the nextflow script `process_exercise_publishDir.nf` that copies the merged reads  to the results folder merged\_reps.
-
-```groovy 
-//process_exercise_publishDir.nf
-
-
-params.reads= "data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"
-
-process MERGE_REPS {
  
- input:
- tuple val(sample_id), path(reads)
- 
- output:
- path("*fq.gz")
-
- script:
- """
- cat *1.fq.gz > ${sample_id}.merged.R1.fq.gz
- cat *2.fq.gz > ${sample_id}.merged.R2.fq.gz
- """
-}
-reads_ch = Channel.fromFilePairs(params.reads,checkIfExists:true,size:6)
-
-workflow {
- MERGE_REPS(reads_ch)
-}
-```
-
-:::::::::::::::  solution
-
-## Solution
-
-```groovy 
-//process_exercise_publishDir_answer.nf
-
-
-params.reads= "data/yeast/reads/ref{1,2,3}*{1,2}.fq.gz"
-
-process MERGE_REPS {
-  publishDir "results/merged_reps"
-  input:
-  tuple val(sample_id), path(reads)
-  output:
-  path("*fq.gz")
-
-  script:
-  """
-  cat *1.fq.gz > ${sample_id}.merged.R1.fq.gz
-  cat *2.fq.gz > ${sample_id}.merged.R2.fq.gz
-  """
-}
-
-reads_ch = Channel.fromFilePairs(params.reads,checkIfExists:true,size:6)
-
-workflow {
-  MERGE_REPS(reads_ch)
-}
-```
-
-```bash 
-$ nextflow run process_exercise_publishDir.nf
-```
-
-```output 
-N E X T F L O W  ~  version 26.04.2
-Launching `process_exercise_publishDir.nf` [infallible_becquerel] - revision: 4d865241a8
-
-executor >  local (1)
-[22/88aa22] process > MERGE_REPS (1) [100%] 1 of 1 ✔
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Nextflow Patterns
-
-If you want to find out common structures of Nextflow processes, the [Nextflow Patterns page](https://nextflow-io.github.io/patterns/) collects some recurrent implementation patterns used in Nextflow applications.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
-
-- Outputs to a process are defined using the output blocks.
-- You can group input and output data from a process using the tuple qualifier.
-- The execution of a process can be controlled using the `when` declaration and conditional statements.
-- Files produced within a process and defined as `output` can be saved to a directory using the `publishDir` directive.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-

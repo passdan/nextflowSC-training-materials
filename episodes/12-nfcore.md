@@ -4,23 +4,19 @@ teaching: 30
 exercises: 10
 ---
 
-::::::::::::::::::::::::::::::::::::::: objectives
+## Objectives
 
 - Understand what nf-core is and how it relates to Nextflow.
 - Use the nf-core helper tool to find nf-core pipelines.
 - Understand how to configuration nf-core pipelines.
 - Run a small demo nf-core pipeline using a test dataset.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
+## Questions
 
 - Where can I find best-practice Nextflow bioinformatic pipelines?
 - How do I run nf-core pipelines?
 - How do I configure nf-core pipelines to use my data?
 - How do I reference nf-core pipelines?
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### What is nf-core?
 
@@ -46,8 +42,6 @@ You can use the `--help` option to see the range of nf-core tools sub-commands.
 In this episode we will be covering the `pipelines list`, `pipelines launch` and `pipelines download` sub-commands which
 aid in the finding and deployment of the nf-core pipelines.
 
-::::::::::::::::::::::::::::::::::::::::: callout
-
 ## Command structure changed in nf-core/tools 3.0
 
 From nf-core/tools **3.0** (2024) onwards, commands are grouped by topic. Pipeline commands now live under `nf-core pipelines <command>`:
@@ -60,8 +54,6 @@ From nf-core/tools **3.0** (2024) onwards, commands are grouped by topic. Pipeli
 | `nf-core create`     | `nf-core pipelines create` |
 
 Developer commands such as `modules` and `subworkflows` keep their names. This course uses the current (4.x) form throughout. As of mid-2026 there are over **140 stable nf-core pipelines**. The exact wording of the help output shown below may differ slightly between tool versions.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```bash
 nf-core --help
@@ -232,16 +224,9 @@ nf-core pipelines list rna rna-seq --sort stars
 └───────────────────────┴───────┴────────────────┴──────────────┴─────────────┴──────────────────────┘
 ```
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
 ### Archived pipelines
 
 Archived pipelines are not returned by default. To include them, use the `--show_archived` flag.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
 
 ### Exercise: listing nf-core pipelines
 
@@ -249,9 +234,8 @@ Archived pipelines are not returned by default. To include them, use the `--show
 2. Sort all pipelines by popularity (stars) and find out which is the most popular?.
 3. Filter pipelines for those that work with RNA and find out how many there are?
 
-:::::::::::::::  solution
-
-### Solution
+<details>
+<summary><b>Solution</b></summary>
 
 Use the `--help` flag to print the list command usage.
 
@@ -271,9 +255,7 @@ Filter pipelines for those that work with RNA.
 $ nf-core pipelines list rna
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ### Running nf-core pipelines
 
@@ -290,7 +272,6 @@ $ nextflow pull nf-core/<PIPELINE>
 ```
 
 **Note** Nextflow will also automatically fetch the pipeline code when use `nextflow run nf-core/<PIPELINE>` command.
-
 
 For the best reproducibility, it is good to explicitly reference the pipeline version number that you wish to use with the `-revision`/`-r` flag.
 
@@ -325,16 +306,9 @@ We can see from the output we have the latest release.
 [..truncated..]
 ```
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
 ### Development Releases
 
 If not specified, Nextflow will fetch the default git branch. For pipelines with a stable release this the default branch is `master` - this branch contains code from the latest release. For pipelines in early development that don't have any releases, the default branch is `dev`.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
 
 ### Exercise: Fetch the latest RNA-Seq pipeline
 
@@ -342,9 +316,8 @@ If not specified, Nextflow will fetch the default git branch. For pipelines with
 
 2. Use the `nf-core pipelines list` command to see if you have the latest version of the pipeline
 
-:::::::::::::::  solution
-
-### Solution
+<details>
+<summary><b>Solution</b></summary>
 
 Use the `nextflow pull` command to download the latest `nf-core/rnaseq` pipeline
 
@@ -358,9 +331,7 @@ Use the `nf-core pipelines list` command to see if you have the latest version o
 $ nf-core pipelines list rnaseq --sort pulled
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ## Usage instructions and documentation
 
@@ -415,8 +386,6 @@ To use the launch feature, just specify the pipeline name:
 nf-core pipelines launch -r 3.14.0 rnaseq
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
 ### Exercise : Create nf-core params file
 
 Use the `nf-core pipelines launch` command to create a params file named `nf-params.json`.
@@ -426,9 +395,8 @@ Use the `nf-core pipelines launch` command to create a params file named `nf-par
 3. Add a genome `GRCh38`
   \*\* Note \*\* : Do not run the command now.
 
-:::::::::::::::  solution
-
-### Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```bash
 $ nf-core pipelines launch rnaseq
@@ -443,9 +411,7 @@ The contents of the `nf-params.json` file should be
 }
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ### Config files
 
@@ -497,24 +463,16 @@ nextflow run nf-core/rnaseq -r 3.14.0 -profile <institutional_config_profile>, t
 
 **Note** The order in which config profiles are specified matters. Their priority increases from left to right.
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
 ### Multiple Nextflow configuration locations
 
 Be clever with multiple Nextflow configuration locations. For example, use `-profile` for your cluster  configuration, the file `$HOME/.nextflow/config` for your personal config such as `params.email` and a working directory >`nextflow.config` file for reproducible run-specific configuration.
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
 
 ### Exercise  create a custom config
 
 Add the `params.email`  to a file called `nfcore-custom.config`
 
-:::::::::::::::  solution
-
-### Solution
+<details>
+<summary><b>Solution</b></summary>
 
 A line similar to one below in the file custom.config
 
@@ -522,9 +480,7 @@ A line similar to one below in the file custom.config
 params.email = "myemail@address.com"
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ## Running pipelines with test data
 
@@ -534,16 +490,11 @@ The nf-core config profile `test` is special profile, which defines a minimal da
 nextflow run nf-core/<pipeline_name> -profile test
 ```
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
 ### Software configuration profile
 
 Note that you will typically still need to combine this with a software configuration profile for your system - e.g.
 `-profile test,conda`.
 Running with the test profile is a great way to confirm that you have Nextflow configured properly for your system before attempting to run with real data
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ### Using nf-core pipelines offline
 
@@ -587,8 +538,6 @@ INFO     Saving 'nf-core/rnaseq'
 INFO     Downloading workflow files from GitHub
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
 ### Exercise  Run a demo nf-core pipeline
 
 Run the `nf-core/demo` pipeline release 1.0.0  with the provided test data using the profile `test`.
@@ -601,9 +550,8 @@ $ nextflow run nf-core/demo -r 1.0.0  -profile test --skip_trim --max_memory 3.G
 
 The `nf-core/demo` pipleine is a simple nf-core style bioinformatics pipeline for workshops and demonstrations that runs FASTQC and multiqc.
 
-:::::::::::::::  solution
-
-### Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```output
  N E X T F L O W   ~  version 26.04.2
@@ -667,9 +615,7 @@ executor >  local (4)
 -[nf-core/demo] Pipeline completed successfully-
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ### Troubleshooting
 
@@ -700,20 +646,4 @@ Many of the pipelines have a publication listed on the nf-core website that can 
 
 #### DOIs
 
-In addition, each release of an nf-core pipeline has a digital object identifiers (DOIs) for easy referencing in literature
-The DOIs are generated by Zenodo from the pipeline's github repository.
-
-
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
-
-- nf-core is a community-led project to develop a set of best-practice pipelines built using the Nextflow workflow management system.
-- The nf-core tool (`nf-core`) is a suite of helper tools that aims to help people run and develop nf-core pipelines.
-- nf-core pipelines can be found using `nf-core pipelines list`, or by checking the nf-core website.
-- `nf-core pipelines launch nf-core/<pipeline>` can be used to write a parameter file for an nf-core pipeline. This can be supplied to the pipeline using the `-params-file` option.
-- An nf-core workflow is run using `nextflow run nf-core/<pipeline>` syntax.
-- nf-core pipelines can be reconfigured by using custom config files and/or adding command line parameters.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
+In addition, each release of an nf-core pipeline has a digital object identifiers (DOIs) for easy r

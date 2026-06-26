@@ -4,22 +4,18 @@ teaching: 30
 exercises: 15
 ---
 
-:::::::::::::::::::::::::::::::::::::::: questions
+## Questions
 
 - How do I split a large pipeline into reusable pieces?
 - How do I import a process from another file?
 - How do I share or rename processes between workflows?
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::: objectives
+## Objectives
 
 - Understand why modularising a pipeline is good practice.
 - Move a process into a module file.
 - Import processes into a workflow with the `include` statement.
 - Import a process under a different name using an alias.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Why modules?
 
@@ -74,15 +70,12 @@ A few rules:
 - You can import several components at once: `include { INDEX; QUANT } from './modules/rnaseq-tasks.nf'`.
 - A process can only be imported and used; you can include the same module in many workflows.
 
-::::::::::::::::::::::::::::::::::::::: challenge
-
-## Add a module
+## Exercise: Add a module
 
 Using the scripts in `scripts/modules/`, modify `modules_exercise_add_module.nf` so that it also imports and runs the `QUANT` process from `./modules/rnaseq-tasks.nf`, taking the output of `INDEX` and a read-pairs channel as input.
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy
 include { INDEX; QUANT } from './modules/rnaseq-tasks.nf'
@@ -100,9 +93,7 @@ workflow {
 
 (See `modules_exercise_add_module_answer.nf`.)
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ## Importing under a different name (aliases)
 
@@ -124,12 +115,10 @@ workflow {
 
 Modules can read `params` just like the main script. The recommended pattern in modern Nextflow is to pass values **explicitly** as process inputs rather than relying on global `params` inside the module, which keeps modules self-contained and reusable. The example `modules_parameters.nf` shows both approaches.
 
-::::::::::::::::::::::::::::::::::::::: keypoints
+## Key points
 
 - A module is a `.nf` file of process/function/workflow definitions with no entry workflow.
 - Import components with `include { NAME } from './path/to/module.nf'`.
 - Import paths are relative to the importing script and must start with `./`, `../`, or be absolute.
 - Use `include { NAME as NEW_NAME }` to use the same process more than once.
 - Modularising processes is the basis of every nf-core pipeline.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::

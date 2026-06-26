@@ -4,23 +4,17 @@ teaching: 20
 exercises: 5
 ---
 
-::::::::::::::::::::::::::::::::::::::: objectives
+## Objectives
 
 - Use pipeline parameters to change the input to a workflow.
 - Add a pipeline parameters to a Nextflow script.
 - Understand how to create and use a parameter file.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
+## Questions
 
 - How can I change the data a workflow uses?
 - How can I parameterise a workflow?
 - How can I add my parameters to a file?
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
 
 In the first episode we ran the Nextflow script, `word_count.nf`, from the
 command line and it counted the number of lines in the file
@@ -81,17 +75,14 @@ ref2_2.fq.gz 81720
 ref2_1.fq.gz 81720
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Change a pipeline's input using a parameter
+## Exercise: Change a pipeline's input using a parameter
 
 Re-run the Nextflow script `word_count.nf` by changing the pipeline input to all
 files in the directory `data/yeast/reads/` that begin with `ref` and end
 with `.fq.gz`:
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ``` bash
 $ nextflow run word_count.nf --input 'data/yeast/reads/ref*.fq.gz'
@@ -118,10 +109,7 @@ ref3_1.fq.gz 52592
 ref2_1.fq.gz 81720
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
+</details>
 
 ## Adding a parameter to a script
 
@@ -168,12 +156,7 @@ Example:
 nextflow run wc-params.nf --sleep 10
 ```
 
-
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-
-## Add a pipeline parameter
+## Exercise: Add a pipeline parameter
 
 If you haven't already make a copy of the `word_count.nf` as `wc-params.nf`.
 
@@ -192,9 +175,8 @@ What input file would it run and why?
 How would you get it to process all `.fq.gz` files in the `data/yeast/reads` 
 directory as well as changing the sleep input to 1 second?
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy
 params.sleep=2
@@ -221,9 +203,7 @@ To run all input files we could add the param
 $ nextflow run wc-params.nf --sleep 1 --input 'data/yeast/reads/*.fq.gz' 
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ## Parameter File
 
@@ -254,8 +234,6 @@ option `-params-file` and pass the file `wc-params.json`:
 $ nextflow run wc-params.nf -params-file wc-params.json
 ```
 
-
-
 ```output         
 N E X T F L O W  ~  version 26.04.2
 Launching `wc-params.nf` [nostalgic_northcutt] - revision: 2f86c9ac7e
@@ -266,10 +244,7 @@ etoh60_1_2.fq.gz 87348
 etoh60_1_1.fq.gz 87348
 ```
 
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Create and use a Parameter file.
+## Exercise: Create and use a Parameter file.
 
 Create a parameter file `params.json` for the Nextflow file
 `wc-params.nf`, and run the Nextflow script using the created
@@ -278,9 +253,8 @@ parameter file, specifying:
 -   sleep as 10
 -   input as `data/yeast/reads/ref3_1.fq.gz`
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```json         
 {
@@ -298,42 +272,11 @@ N E X T F L O W
 f5ef7b7a01 executor \> local (1) [f3/4fa480] process \> NUM_LINES
 (1) [100%] 1 of 1 ✔ ref3_1.fq.gz 52592 
 ```
-:::::::::::::::::::::::::
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ## Validating parameters with nf-schema
 
 As pipelines gain more parameters, it becomes important to **validate** the values a user supplies — checking that required parameters are present, that file paths exist, and that values are of the right type — and to fail early with a helpful message rather than crashing mid-run.
 
-The modern way to do this is the [`nf-schema`](https://nextflow-io.github.io/nf-schema/) plugin (the successor to the older `nf-validation` plugin, which it replaced in 2024). You describe your parameters in a `nextflow_schema.json` file, enable the plugin, and call `validateParameters()` at the start of your workflow:
-
-```groovy
-//enable the plugin in nextflow.config
-plugins {
-    id 'nf-schema@2.1.1'
-}
-```
-
-```groovy
-//main.nf
-include { validateParameters; paramsSummaryLog } from 'plugin/nf-schema'
-
-workflow {
-    // print errors and exit if any parameter is invalid
-    validateParameters()
-    // log a tidy summary of the parameters actually used
-    log.info paramsSummaryLog(workflow)
-
-    // ... rest of workflow
-}
-```
-
-The `nextflow_schema.json` file can be generated and edited interactively with `nf-core pipelines schema build`. This is the same mechanism every nf-core pipeline uses to validate its inputs, and it is what powers the parameter descriptions you see in `nf-core pipelines launch`.
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
-- Pipeline parameters are specified by prepending the prefix `params` to a variable name, separated by dot character.
-- To specify a pipeline parameter on the command line for a Nextflow run use `--variable_name` syntax.
-- You can add parameters to a JSON formatted file and pass them to the script using option `-params-file`.
-- Use the `nf-schema` plugin and a `nextflow_schema.json` file to validate parameters and fail early with clear errors.
-::::::::::::::::::::::::::::::::::::::::::::::::::
+The modern way to do this is the [`nf-schema`](https://nextflow-io.github.io/nf-schema/) plugin (the succ

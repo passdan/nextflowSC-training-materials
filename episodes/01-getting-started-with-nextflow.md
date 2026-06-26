@@ -21,7 +21,6 @@ exercises: 10
 - What are the main components of a Nextflow script?
 - How do I run a Nextflow script?
 
-
 ## Workflows
 
 Analysing data involves a sequence of tasks, including gathering, cleaning, and processing data. This sequence of tasks is called a workflow or a pipeline. These workflows typically require executing multiple software packages, sometimes running on different computing environments, such as a desktop or a compute cluster. Traditionally these workflows have been joined together in scripts using general purpose programming languages such as Bash or Python.
@@ -159,7 +158,8 @@ We are now going to look at a sample Nextflow script that counts the number of
 lines in a file. Create the file `word_count.nf` in the current directory using
 your favourite text editor and copy-paste the following code:
 
-::::::::::::::::::::::::::::::::::::: instructor
+<details>
+<summary><b>Instructor note</b></summary>
 
 The nextflow scripts for each lesson episode are available in the `scripts` directory created
 during the course setup. You should copy the script into the current directory
@@ -170,7 +170,7 @@ For example, to copy the script for this lesson episode, run the following comma
 $ cp scripts/introduction/word_count.nf .
 ```
 
-:::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ```groovy
 #!/usr/bin/env nextflow
@@ -253,9 +253,7 @@ This is a Nextflow script, which contains the following:
 
 To run a Nextflow script use the command `nextflow run <script_name>`.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Run a Nextflow  script
+## Exercise: Run a Nextflow  script
 
 Run the script by entering the following command in your terminal:
 
@@ -263,9 +261,8 @@ Run the script by entering the following command in your terminal:
 $ nextflow run word_count.nf
 ```
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 You should see output similar to the text shown below:
 
@@ -284,13 +281,7 @@ executor >  local (1)
 4. The next line shows the process id `21/b259be`, process name, number of cpus, percentage task completion, and how many instances of the process have been run.
 5. The final line is the output of the `.view()` operator.
   
-  
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::: callout
+</details>
 
 ## A note on Nextflow syntax and versions
 
@@ -301,28 +292,3 @@ Nextflow has evolved since these materials were first written. A few things wort
 - **Use the VS Code extension.** The official [Nextflow VS Code extension](https://marketplace.visualstudio.com/items?itemName=nextflow.nextflow) provides a language server with syntax highlighting, auto-completion and live linting. It is the recommended way to write Nextflow and will flag errors as you type.
 
 This course was tested with Nextflow `26.04`. You can check your version with `nextflow -version`.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Quick recap
-
-- A workflow is a sequence of tasks that process a set of data, and a workflow
-  management system (WfMS) is a computational platform that provides an
-  infrastructure for the set-up, execution and monitoring of workflows.
-- Nextflow scripts comprise of *channels* for controlling inputs and outputs,
-  and *processes* for defining workflow tasks.
-- You run a Nextflow script using the `nextflow run` command.
-
-
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
-
-- A workflow is a sequence of tasks that process a set of data.
-- A workflow management system (WfMS) is a computational platform that provides an infrastructure for the set-up, execution and monitoring of workflows.
-- Nextflow is a workflow management system that comprises both a runtime environment and a domain specific language (DSL).
-- Nextflow scripts comprise of channels for controlling inputs and outputs, and processes for defining workflow tasks.
-- You run a Nextflow script using the `nextflow run` command.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-

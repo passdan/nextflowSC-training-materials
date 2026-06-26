@@ -4,21 +4,17 @@ teaching: 20
 exercises: 5
 ---
 
-::::::::::::::::::::::::::::::::::::::: objectives
+## Objectives
 
 - View Nextflow pipeline run logs.
 - Use `nextflow log` to view more information about a specific run.
 - Create an HTML report from a pipeline run.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
+## Questions
 
 - How do I get information about my pipeline run?
 - How can I see what commands I ran?
 - How can I create a report from my run?
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Nextflow log
 
@@ -37,9 +33,7 @@ TIMESTAMP          	DURATION	RUN NAME               	STATUS	REVISION ID	SESSION 
 
 This will print a summary of the executions log and runtime information for all pipelines run. By default, included in the summary, are the date and time it ran, how long it ran for, the run name, run status, a revision ID, the session id and the command run on the command line.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Show Execution Log
+## Exercise: Show Execution Log
 
 Listing the execution logs of previous invocations of all pipelines in a directory.
 
@@ -47,9 +41,8 @@ Listing the execution logs of previous invocations of all pipelines in a directo
 $ nextflow log
 ```
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 The output will look similar to this:
 
@@ -59,9 +52,7 @@ TIMESTAMP          	DURATION	RUN NAME       	STATUS	REVISION ID	SESSION ID      
 2021-03-19 13:46:53	6.6s    	soggy_miescher 	OK    	c54a707593 	58da0ccf-63f9-42e4-ba4b-1c349348ece5	nextflow run wc.nf --samples 'data/yeast/reads/*.fq.gz'
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ## Pipeline execution report
 
@@ -84,8 +75,6 @@ $ nextflow log tiny_fermat
 
 This will list the work directory for each process.
 
-::::::::::::::::::::::::::::::::::::::::  callout
-
 ## Task ID
 
 The task ID is a a 32 hexadecimal digit,e.g. `3b3485d00b0115f89e4c202eacf82eba`.
@@ -99,9 +88,6 @@ A task's unique ID is generated as a 128-bit hash number obtained from a composi
 - Environment modules
 - Any executed scripts in the bin directory
   
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
 ## Fields
 
 If we want to print more metadata we can use the `log` command and the option `-f` (fields) followed by a comma delimited list of fields.
@@ -198,14 +184,13 @@ $ nextflow log tiny_fermat -F 'process =~ /fastqc/'
 
 This can be useful to locate specific tasks work directories.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## View run log
+## Exercise: View run log
 
 Use the Nextflow `log` command specifying a `run name` and the fields.
 name, hash, process and status
 
-::::::::::::::  solution
+<details>
+<summary><b>Solution</b></summary>
 
 Example solution using run name `elegant_descartes`.
 
@@ -213,21 +198,20 @@ Example solution using run name `elegant_descartes`.
 $ nextflow log elegant_descartes -f name,hash,process,status
 ```
 
-:::::::::::::::::::::::::
+</details>
 
 ## Filter pipeline run log
 
 Use the `-F` option and a regular expression to filter the for a specific process e.g. multiqc.
 
-::::::::::::::  solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```bash 
 $ nextflow log elegant_descartes -f name,hash,process,status -F 'process =~ /multiqc/'
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ## Templates
 
@@ -282,52 +266,19 @@ $ nextflow log elegant_descartes -t template.html > provenance.html
 
 To view the report open it in a browser.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Generate an HTML run report
+## Exercise: Generate an HTML run report
 
 Generate an HTML report for a run using the `-t` option and the template.html file.
 
-::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```bash 
 $ nextflow log elegant_descartes -t template.html > provenance.html
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ## Monitoring runs with the Seqera Platform
 
-The reports above are produced *after* a run. For live monitoring — especially of long pipelines on HPC or cloud — you can stream run status to the [Seqera Platform](https://seqera.io/platform/) (the hosted service formerly called Nextflow Tower). It gives a web dashboard showing each task's status, resource usage, and logs in real time, and lets you launch and manage runs centrally.
-
-To send monitoring data from any run, create a free account, generate an access token, and add the runtime flag:
-
-```bash
-$ export TOWER_ACCESS_TOKEN=<your token>
-$ nextflow run main.nf -with-tower
-```
-
-Or enable it permanently in `nextflow.config`:
-
-```groovy
-tower {
-    enabled = true
-    // endpoint = 'https://api.cloud.seqera.io'  // default
-}
-```
-
-This is entirely optional and the pipeline runs identically without it, but it is the standard way teams keep an eye on production runs.
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
-
-- Nextflow can produce a custom execution report with run information using the `log` command.
-- You can generate a report using the `-t` option specifying a template file.
-- For live monitoring of runs, stream status to the Seqera Platform with `-with-tower` (or `tower.enabled` in config).
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
+The reports above are produced *after* a run. For live monitoring — especially of long pipelines on HPC or cloud — you can stream run status to the [Seqera Platform](https://seqera.io/platform/) (the hosted service formerly called Nextf

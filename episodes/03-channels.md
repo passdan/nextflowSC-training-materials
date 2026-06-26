@@ -4,7 +4,7 @@ teaching: 30
 exercises: 10
 ---
 
-::::::::::::::::::::::::::::::::::::::: objectives
+## Objectives
 
 - Understand how Nextflow manages data using channels.
 - Understand the different types of Nextflow channels.
@@ -12,17 +12,13 @@ exercises: 10
 - Select files as input based on a glob pattern.
 - Edit channel factory arguments to alter how data is read in.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
+## Questions
 
 - How do I move data around in Nextflow?
 - How do I handle different types of input, e.g. files and parameters?
 - How do I create a Nextflow channel?
 - How can I use pattern matching to select input files?
 - How do I change the way inputs are handled?
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Channels
 
@@ -53,9 +49,7 @@ Queue channels are a type of channel in which data is consumed (used up) to make
 
 The second type of Nextflow channel is a `value` channel. A **value** channel is bound to a **single** value. A value channel can be used an unlimited number times since its content is not consumed. This is also useful for processes that need to reuse input from a channel, for example, a reference genome sequence file that is required by multiple steps within a process, or by more than one process.
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Queue vs Value Channel.
+## Exercise: Queue vs Value Channel.
 
 What type of channel would you use to store the following?
 
@@ -63,22 +57,17 @@ What type of channel would you use to store the following?
 2. A list with one or more values.
 3. A single value.
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 1. A queue channels is used to store multiple values.
 2. A value channel is used to store a single value, this can be a list with multiple values.
 3. A value channel is used to store a single value.
   
-  
+</details>
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
-::::::::::::::::::::::::::::::::::::: instructor
+<details>
+<summary><b>Instructor note</b></summary>
 
 Create a nextflow script called to `channel.nf` for the following examples.
 Explain that as you are just setting up channels you do not need to add any processes 
@@ -90,7 +79,7 @@ Run using:
 $ nextflow run channel.nf
 ```
 
-:::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ## Creating Channels using Channel factories
 
@@ -135,7 +124,6 @@ myMap = [ p1 : "start", q2 : "end" ]
 
 To view the contents of a value channel, use the `view` operator.
 We will learn more about channel operators in a later episode.
-
 
 ```groovy
 ch1 = Channel.value( 'GRCh38' )
@@ -192,18 +180,11 @@ chromosome_ch.view()
 
 Arguments passed to the `of` method can be of varying types e.g., combinations of numbers, strings, or objects. In the above examples we have examples of both string and number data types.
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
 ## Channel.from
 
 You may see the method `Channel.from` in older nextflow scripts. This performs a similar function but is now deprecated (no longer used), and so `Channel.of` should be used instead.
 
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Create a value and Queue and view Channel contents
+## Exercise: Create a value and Queue and view Channel contents
 
 1. Create a Nextflow script file called `channel.nf` .
 2. Create a Value channel `ch_vl` containing the String `'GRCh38'`.
@@ -215,9 +196,8 @@ You may see the method `Channel.from` in older nextflow scripts. This performs a
 $ nextflow run channel.nf
 ```
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 ch_vl = Channel.value('GRCh38')
@@ -236,9 +216,7 @@ ch_qu.view()
  4
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ### The **fromList** Channel factory
 
@@ -259,18 +237,11 @@ salmon
 kallisto
 ```
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
 ## Channel.fromList vs Channel.of
 
 In the above example, the channel has two elements. If you has used the Channel.of(aligner\_list) it would have  contained only 1 element `[salmon, kallisto]` and any operator or process using the channel would run once.
 
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Creating channels from a list
+## Exercise: Creating channels from a list
 
 Write a Nextflow script that creates both a `queue` and `value` channel
 for the list
@@ -284,9 +255,8 @@ How many lines does the queue and value channel print?
 
 **Hint:** Use the `fromList()` and `value()` Channel factory methods.
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 ids = ['ERR908507', 'ERR908506', 'ERR908505']
@@ -310,11 +280,7 @@ The queue channel `queue_ch` will print three lines.
 
 The value channel `value_ch` will print one line.
 
-
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ### The **fromPath** Channel factory
 
@@ -408,9 +374,7 @@ Launching `channels.nf` [intergalactic_mcclintock] - revision: d2c138894b
 No files match pattern `*.fq.gz` at path: data/chicken/reads/
 ```
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Using Channel.fromPath
+## Exercise: Using Channel.fromPath
 
 1. Create a Nextflow script `channel_fromPath.nf`
 2. Use the `Channel.fromPath` method to create a channel containing all files in the `data/yeast/` directory, including the subdirectories.
@@ -419,9 +383,8 @@ No files match pattern `*.fq.gz` at path: data/chicken/reads/
 
 **Hint:** You need two asterisks, i.e. `**`, to search subdirectories.
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 all_files_ch = Channel.fromPath('data/yeast/**', hidden: true)
@@ -438,9 +401,7 @@ data/yeast/reads/temp33_2_1.fq.gz
 [..truncated..]
 ```
 
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+</details>
 
 ### The **fromFilePairs** Channel factory
 
@@ -513,25 +474,17 @@ The code above will create a queue channel containing one element. The element i
 
 See more information about the channel factory `fromFilePairs` [here](https://www.nextflow.io/docs/latest/channel.html#fromfilepairs)
 
-:::::::::::::::::::::::::::::::::::::::::  callout
-
 ## More complex patterns
 
 If you need to match more complex patterns you should create a sample sheet specifying the files and create a channel from that. This will be covered in the operator episode.
 
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Create a channel containing groups of files
+## Exercise: Create a channel containing groups of files
 
 1. Create a Nextflow script file `channel_fromFilePairs.nf` .
 2. Use the `fromFilePairs` method to create a channel containing three tuples. Each tuple will contain the pairs of fastq reads for the three temp33 samples in the `data/yeast/reads` directory
 
-:::::::::::::::  solution
-
-## Solution
+<details>
+<summary><b>Solution</b></summary>
 
 ```groovy 
 pairs_ch = Channel.fromFilePairs('data/yeast/reads/temp33*_{1,2}.fq.gz')
@@ -546,11 +499,9 @@ Launching `channels.nf` [stupefied_lumiere] - revision: a3741edde2
 [temp33_2, [data/yeast/reads/temp33_2_1.fq.gz, data/yeast/reads/temp33_2_2.fq.gz]]
 ```
 
-:::::::::::::::::::::::::
+</details>
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: keypoints
+## Key points
 
 - Channels must be used to import data into Nextflow.
 - Nextflow has two different kinds of channels: queue channels and value channels.
@@ -558,7 +509,3 @@ Launching `channels.nf` [stupefied_lumiere] - revision: a3741edde2
 - Data in queue channels are consumed when they are used by a process or an operator.
 - Channel factory methods, such as `Channel.of`, are used to create channels.
 - Channel factory methods have optional parameters e.g., `checkIfExists`, that can be used to alter the creation and behaviour of a channel.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-
