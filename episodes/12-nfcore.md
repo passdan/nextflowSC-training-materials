@@ -43,8 +43,25 @@ The [nf-core tools](https://nf-co.re/tools) package is written in Python and can
 #### nf-core tools sub-commands
 
 You can use the `--help` option to see the range of nf-core tools sub-commands.
-In this episode we will be covering the `list`, `launch` and `download` sub-commands which
+In this episode we will be covering the `pipelines list`, `pipelines launch` and `pipelines download` sub-commands which
 aid in the finding and deployment of the nf-core pipelines.
+
+::::::::::::::::::::::::::::::::::::::::: callout
+
+## Command structure changed in nf-core/tools 3.0
+
+From nf-core/tools **3.0** (2024) onwards, commands are grouped by topic. Pipeline commands now live under `nf-core pipelines <command>`:
+
+| Old command (≤ 2.x)  | Current command (3.0+) |
+| -------------------- | ---------------------- |
+| `nf-core list`       | `nf-core pipelines list` |
+| `nf-core launch`     | `nf-core pipelines launch` |
+| `nf-core download`   | `nf-core pipelines download` |
+| `nf-core create`     | `nf-core pipelines create` |
+
+Developer commands such as `modules` and `subworkflows` keep their names. This course uses the current (4.x) form throughout. As of mid-2026 there are over **140 stable nf-core pipelines**. The exact wording of the help output shown below may differ slightly between tool versions.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ```bash
 nf-core --help
@@ -57,7 +74,7 @@ nf-core --help
     | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                           `._,._,'
 
- nf-core/tools version 2.14.1 - https://nf-co.re
+ nf-core/tools version 4.0.2 - https://nf-co.re
 
 
 
@@ -95,7 +112,7 @@ nf-core --help
 
 ### Listing available nf-core pipelines
 
-The simplest sub-command is `nf-core list`, which lists all available nf-core pipelines in the nf-core Github repository.
+The simplest sub-command is `nf-core pipelines list`, which lists all available nf-core pipelines in the nf-core Github repository.
 
 The output shows the latest version number and when that was released.
 If the pipeline has been pulled locally using Nextflow, it tells you when that was and whether you have the latest version.
@@ -103,7 +120,7 @@ If the pipeline has been pulled locally using Nextflow, it tells you when that w
 Run the command below.
 
 ```bash
-nf-core list
+nf-core pipelines list
 ```
 
 An example of the output from the command is as follows:
@@ -117,7 +134,7 @@ An example of the output from the command is as follows:
     | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                           `._,._,'
 
-    nf-core/tools version 2.14.1 - https://nf-co.re
+    nf-core/tools version 4.0.2 - https://nf-co.re
 
 
 ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
@@ -144,7 +161,7 @@ If you supply additional keywords after the `list` sub-command, the listed pipel
 Here we filter on the keywords **rna** and **rna-seq** .
 
 ```bash
-nf-core list rna rna-seq
+nf-core pipelines list rna rna-seq
 ```
 
 ```output
@@ -155,7 +172,7 @@ nf-core list rna rna-seq
     | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                           `._,._,'
 
-    nf-core/tools version 2.14.1 - https://nf-co.re
+    nf-core/tools version 4.0.2 - https://nf-co.re
 
 
 ┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
@@ -183,7 +200,7 @@ You can sort the results by adding the option `--sort` followed by a keyword.
 For example, latest release (`--sort release`), when you last pulled a local copy (`--sort pulled`), alphabetically (`--sort name`), or number of GitHub stars (`--sort stars`).
 
 ```bash
-nf-core list rna rna-seq --sort stars
+nf-core pipelines list rna rna-seq --sort stars
 ```
 
 ```output
@@ -193,7 +210,7 @@ nf-core list rna rna-seq --sort stars
 | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                       `._,._,'
 
-    nf-core/tools version 2.14.1 - https://nf-co.re
+    nf-core/tools version 4.0.2 - https://nf-co.re
 
 
 ┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
@@ -239,19 +256,19 @@ Archived pipelines are not returned by default. To include them, use the `--show
 Use the `--help` flag to print the list command usage.
 
 ```bash
-$ nf-core list --help
+$ nf-core pipelines list --help
 ```
 
 Sort all pipelines by popularity (stars).
 
 ```bash
-$ nf-core list --sort stars
+$ nf-core pipelines list --sort stars
 ```
 
 Filter pipelines for those that work with RNA.
 
 ```bash
-$ nf-core list rna
+$ nf-core pipelines list rna
 ```
 
 :::::::::::::::::::::::::
@@ -283,10 +300,10 @@ In the example below we are pulling the rnaseq pipeline version 3.0
 nextflow pull nf-core/rnaseq -revision 3.14.0
 ```
 
-We can check the pipeline has been pulled using the `nf-core list` command.
+We can check the pipeline has been pulled using the `nf-core pipelines list` command.
 
 ```bash
-nf-core list rnaseq -s pulled
+nf-core pipelines list rnaseq -s pulled
 ```
 
 We can see from the output we have the latest release.
@@ -298,7 +315,7 @@ We can see from the output we have the latest release.
 | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                       `._,._,'
 
-    nf-core/tools version 2.14.1 - https://nf-co.re
+    nf-core/tools version 4.0.2 - https://nf-co.re
 
 
 ┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┓
@@ -323,7 +340,7 @@ If not specified, Nextflow will fetch the default git branch. For pipelines with
 
 1. Use the `nextflow pull` command to download the latest `nf-core/rnaseq` pipeline
 
-2. Use the `nf-core list` command to see if you have the latest version of the pipeline
+2. Use the `nf-core pipelines list` command to see if you have the latest version of the pipeline
 
 :::::::::::::::  solution
 
@@ -335,10 +352,10 @@ Use the `nextflow pull` command to download the latest `nf-core/rnaseq` pipeline
 $ nextflow pull nf-core/rnaseq
 ```
 
-Use the `nf-core list` command to see if you have the latest version of the pipeline
+Use the `nf-core pipelines list` command to see if you have the latest version of the pipeline
 
 ```bash
-$ nf-core list rnaseq --sort pulled
+$ nf-core pipelines list rnaseq --sort pulled
 ```
 
 :::::::::::::::::::::::::
@@ -359,7 +376,7 @@ nextflow run -r 3.14.0 nf-core/rnaseq --help
 ```
 
 ```output
-N E X T F L O W  ~  version 20.10.0
+N E X T F L O W  ~  version 26.04.2
 Launching `nf-core/rnaseq` [silly_miescher] - revision: 964425e3fd [3.4]
 ------------------------------------------------------
                                         ,--./,-.
@@ -382,29 +399,29 @@ Input/output options
 ..truncated..
 ```
 
-### The nf-core launch command
+### The nf-core pipelines launch command
 
 As can be seen from the output of the help option nf-core pipelines have a number of flags that need to be passed on the command line: some mandatory, some optional.
 
 To make it easier to launch pipelines, these parameters are described in a JSON file, `nextflow_schema.json` bundled with the pipeline.
 
-The `nf-core launch` command uses this to build an interactive command-line wizard which walks through the different options with descriptions of each, showing the default value and prompting for values.
+The `nf-core pipelines launch` command uses this to build an interactive command-line wizard which walks through the different options with descriptions of each, showing the default value and prompting for values.
 
 Once all prompts have been answered, non-default values are saved to a `params.json` file which can be supplied to Nextflow  using the `-params-file` option. Optionally, the Nextflow command can be launched there and then.
 
 To use the launch feature, just specify the pipeline name:
 
 ```bash
-nf-core launch -r 3.14.0 rnaseq
+nf-core pipelines launch -r 3.14.0 rnaseq
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ### Exercise : Create nf-core params file
 
-Use the `nf-core launch` command to create a params file named `nf-params.json`.
+Use the `nf-core pipelines launch` command to create a params file named `nf-params.json`.
 
-1. Use the `nf-core launch` command to launch the interactive command-line wizard.
+1. Use the `nf-core pipelines launch` command to launch the interactive command-line wizard.
 2. Add an input file name `samples.csv`
 3. Add a genome `GRCh38`
   \*\* Note \*\* : Do not run the command now.
@@ -414,7 +431,7 @@ Use the `nf-core launch` command to create a params file named `nf-params.json`.
 ### Solution
 
 ```bash
-$ nf-core launch rnaseq
+$ nf-core pipelines launch rnaseq
 ```
 
 The contents of the `nf-params.json` file should be
@@ -532,14 +549,14 @@ Running with the test profile is a great way to confirm that you have Nextflow c
 
 Many of the techniques and resources described above require an active internet connection at run time - pipeline files, configuration profiles and software containers are all dynamically fetched when the pipeline is launched. This can be a problem for people using secure computing resources that do not have connections to the internet.
 
-To help with this, the `nf-core download` command automates the fetching of required files for running nf-core pipelines offline.
+To help with this, the `nf-core pipelines download` command automates the fetching of required files for running nf-core pipelines offline.
 The command can download a specific release of a pipeline with `-r`/`--release` .  
 By default, the pipeline will download the pipeline code and the institutional nf-core/configs files.
 
 If you specify the flag `--singularity`, it will also download any singularity image files that are required (this needs Singularity to be installed). All files are saved to a single directory, ready to be transferred to the cluster where the pipeline will be executed.
 
 ```bash
-nf-core download nf-core/rnaseq -r 3.14.0
+nf-core pipelines download nf-core/rnaseq -r 3.14.0
 ```
 
 ```output
@@ -550,7 +567,7 @@ nf-core download nf-core/rnaseq -r 3.14.0
     | \| |       \__, \__/ |  \ |___     \`-._,-`-,
                                           `._,._,'
 
-    nf-core/tools version 2.14.1 - https://nf-co.re
+    nf-core/tools version 4.0.2 - https://nf-co.re
 
 
 WARNING  Could not find GitHub authentication token. Some API requests may fail.
@@ -589,7 +606,7 @@ The `nf-core/demo` pipleine is a simple nf-core style bioinformatics pipeline fo
 ### Solution
 
 ```output
- N E X T F L O W   ~  version 24.04.3
+ N E X T F L O W   ~  version 26.04.2
 
 Launching `https://github.com/nf-core/demo` [silly_bohr] DSL2 - revision: 705f18e4b1 [master]
 
@@ -692,8 +709,8 @@ The DOIs are generated by Zenodo from the pipeline's github repository.
 
 - nf-core is a community-led project to develop a set of best-practice pipelines built using the Nextflow workflow management system.
 - The nf-core tool (`nf-core`) is a suite of helper tools that aims to help people run and develop nf-core pipelines.
-- nf-core pipelines can be found using `nf-core list`, or by checking the nf-core website.
-- `nf-core launch nf-core/<pipeline>` can be used to write a parameter file for an nf-core pipeline. This can be supplied to the pipeline using the `-params-file` option.
+- nf-core pipelines can be found using `nf-core pipelines list`, or by checking the nf-core website.
+- `nf-core pipelines launch nf-core/<pipeline>` can be used to write a parameter file for an nf-core pipeline. This can be supplied to the pipeline using the `-params-file` option.
 - An nf-core workflow is run using `nextflow run nf-core/<pipeline>` syntax.
 - nf-core pipelines can be reconfigured by using custom config files and/or adding command line parameters.
 

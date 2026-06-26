@@ -712,6 +712,38 @@ Channel.of("val1\tval2\tval3\nval4\tval5\tval6\n")
 [val4, val5, val6]
 ```
 
+#### Building a sample sheet into a "meta map"
+
+In real pipelines — and in every nf-core pipeline — the standard way to feed samples in is a **sample sheet**: a CSV listing each sample and its files. The common idiom is to parse the CSV with `splitCsv(header:true)` and then use `map` to build a tuple of `[ meta, files ]`, where `meta` is a small map of metadata (sample id, single/paired-end, condition, etc.) that travels alongside the data through the pipeline.
+
+Given `samples.csv`:
+
+```
+sample_id,fastq_1,fastq_2
+ref1,data/yeast/reads/ref1_1.fq.gz,data/yeast/reads/ref1_2.fq.gz
+ref2,data/yeast/reads/ref2_1.fq.gz,data/yeast/reads/ref2_2.fq.gz
+```
+
+```groovy
+reads_ch = Channel
+    .fromPath('data/yeast/samples.csv')
+    .splitCsv(header: true)
+    .map { row ->
+        def meta = [ id: row.sample_id ]
+        def reads = [ file(row.fastq_1), file(row.fastq_2) ]
+        return tuple(meta, reads)
+    }
+
+reads_ch.view()
+```
+
+```output
+[[id:ref1], [.../ref1_1.fq.gz, .../ref1_2.fq.gz]]
+[[id:ref2], [.../ref2_1.fq.gz, .../ref2_2.fq.gz]]
+```
+
+Carrying metadata in a `meta` map means a process can name its outputs after the sample, and downstream operators can group or join samples by their metadata. This `[ meta, reads ]` convention is worth recognising, as you will see it throughout nf-core modules.
+
 ### More resources
 
 See the operators [documentation](https://www.nextflow.io/docs/latest/operator.html) on the Nextflow web site.

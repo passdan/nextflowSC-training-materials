@@ -227,7 +227,7 @@ ch_qu.view()
 ```
 
 ```output
- N E X T F L O W  ~  version 21.04.0
+ N E X T F L O W  ~  version 26.04.2
  Launching `channel.nf` [condescending_dalembert] - revision: c80908867b
  GRCh38
  1
@@ -298,7 +298,7 @@ value_ch.view()
 ```
 
 ```output 
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `channel_fromList.nf` [wise_hodgkin] - revision: 22d76be151
 ERR908507
 ERR908506
@@ -388,7 +388,7 @@ read_ch.view()
 ```
 
 ```output
-N E X T F L O W   ~  version 20.10.0
+N E X T F L O W   ~  version 26.04.2
 
 Launching `channels.nf` [scruffy_swartz] DSL2 - revision: 2c8f18ab48
 ```
@@ -403,7 +403,7 @@ read_ch.view()
 This will give an error as there is no data/chicken directory.
 
 ```output
-N E X T F L O W  ~  version 20.10.0
+N E X T F L O W  ~  version 26.04.2
 Launching `channels.nf` [intergalactic_mcclintock] - revision: d2c138894b
 No files match pattern `*.fq.gz` at path: data/chicken/reads/
 ```
@@ -429,7 +429,7 @@ all_files_ch.view()
 ```
 
 ```output 
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `channel_fromPath.nf` [reverent_mclean] - revision: cf02269bcb
 data/yeast/samples.csv
 data/yeast/reads/etoh60_3_2.fq.gz
@@ -539,7 +539,7 @@ pairs_ch.view()
 ```
 
 ```output 
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `channels.nf` [stupefied_lumiere] - revision: a3741edde2
 [temp33_1, [data/yeast/reads/temp33_1_1.fq.gz, data/yeast/reads/temp33_1_2.fq.gz]]
 [temp33_3, [data/yeast/reads/temp33_3_1.fq.gz, data/yeast/reads/temp33_3_2.fq.gz]]

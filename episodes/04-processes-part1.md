@@ -109,7 +109,7 @@ $ nextflow run process_01.nf -process.debug
  **Note** We need to add the Nextflow run option `-process.debug` to print the output to the terminal.
 
 ```output
-N E X T F L O W  ~  version 21.10.6
+N E X T F L O W  ~  version 26.04.2
 Launching `process_01.nf` [modest_pike] - revision: 3eaa812b17
 executor >  local (1)
 [cd/eab1fd] process > NUMSEQ [100%] 1 of 1 ✔
@@ -152,7 +152,7 @@ $ nextflow run simple_process.nf -process.debug
 ```
 
 ```output
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `simple_process.nf`` [prickly_gilbert] - revision: 471a79c65c
 executor >  local (1)
 [56/5e6001] process > COUNT_BASES [100%] 1 of 1 ✔
@@ -241,7 +241,7 @@ $ nextflow run process_multi_line.nf -process.debug
 ```
 
 ```output
-N E X T F L O W  ~  version 21.10.6
+N E X T F L O W  ~  version 26.04.2
 Launching `process_multi_line.nf` [focused_jang] - revision: e32caf0dcb
 executor >  local (1)
 [90/6e38f4] process > NUMSEQ_CHR [100%] 1 of 1 ✔
@@ -294,7 +294,7 @@ $ nextflow run process_python.nf -process.debug
 ```
 
 ```output
- N E X T F L O W   ~  version 24.04.4
+ N E X T F L O W   ~  version 26.04.2
 
 Launching `process_python.nf` [mad_montalcini] DSL2 - revision: ee25d49465
 
@@ -360,7 +360,7 @@ nextflow run process_python_script.nf -process.debug
 ```
 
 ```output
-N E X T F L O W  ~  version 23.10.1
+N E X T F L O W  ~  version 26.04.2
 Launching `pr.nf` [kickass_legentil] DSL2 - revision: 3b9eee1d47
 executor >  local (1)
 [88/759311] process > PROCESS_READS [100%] 1 of 1 ✔
@@ -444,7 +444,7 @@ nextflow run process_script_params.nf --chr B -process.debug
 ```
 
 ```output
- N E X T F L O W   ~  version 24.04.3
+ N E X T F L O W   ~  version 26.04.2
 
 Launching `process_script_params.nf` [pedantic_mandelbrot] DSL2 - revision: 538e3c2b38
 
@@ -514,7 +514,7 @@ $ nextflow run process_script_params.nf --base C -process.debug
 ```
 
 ```output
-  N E X T F L O W  ~  version 21.04.0
+  N E X T F L O W  ~  version 26.04.2
   Launching `process_script_params.nf ` [nostalgic_jones] - revision: 9feb8de4fe
   executor >  local (1)
   [92/cdc9de] process > COUNT_BASES [100%] 1 of 1 ✔
@@ -651,7 +651,7 @@ $ nextflow run process_conditional.nf -process.debug --method ids
 ```
 
 ```output
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `juggle_processes.nf` [cheeky_shirley] - revision: 588f20ae5a
 [01/60b08d] process > COUNT [100%] 1 of 1 ✔
 Number of sequences in transciptome
@@ -722,7 +722,7 @@ $ nextflow run process_input_value.nf -process.debug
 ```
 
 ```output
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `process_input_value.nf` [wise_kalman] - revision: 7f90e1bfc5
 executor >  local (24)
 [b1/88df3f] process > PRINTCHR (16) [100%] 24 of 24 ✔
@@ -909,7 +909,7 @@ nextflow run process_exercise_input.nf -process.debug
 ```
 
 ```output
-N E X T F L O W  ~  version 21.10.6
+N E X T F L O W  ~  version 26.04.2
 Launching `process_exercise_input.nf` [focused_jang] - revision: e32caf0dcb
 executor >  local (1)
 [00/14ce67] process > CHR_COUNT (1) [100%] 1 of 1 ✔
@@ -1096,7 +1096,7 @@ $ nextflow run process_exercise_combine.nf -process.debug
 ```
 
 ```output
-N E X T F L O W   ~  version 24.04.4
+N E X T F L O W   ~  version 26.04.2
 
 Launching `process_exercise_combine.nf` [fabulous_kare] DSL2 - revision: 1eade0a2e9
 
@@ -1223,7 +1223,7 @@ $ nextflow run process_exercise_repeat.nf -process.debug
 This process runs 16 times.
 
 ```output
-N E X T F L O W   ~  version 24.04.4
+N E X T F L O W   ~  version 26.04.2
 
 Launching `process_exercise_repeat.nf` [ecstatic_turing] DSL2 - revision: 17891a7528
 

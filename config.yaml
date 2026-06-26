@@ -69,7 +69,10 @@ episodes:
 - 08-reporting.md
 - 09-configuration.md
 - 10-workflow_checkpoint_caching.md
+- 13-modules.md
+- 14-debugging.md
 - 11-Simple_Rna-Seq_pipeline.md
+- 15-testing-nf-test.md
 - 12-nfcore.md
 
 

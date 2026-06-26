@@ -4,7 +4,7 @@ teaching: 30
 exercises: 10
 ---
 
-::::::::::::::::::::::::::::::::::::::: objectives
+# objectives
 
 - Understand what a workflow management system is.
 - Understand the benefits of using a workflow management system.
@@ -12,9 +12,7 @@ exercises: 10
 - Explain the components of a Nextflow script.
 - Run a Nextflow script.
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::: questions
+## questions
 
 - What is a workflow and what are workflow management systems?
 - Why should I use a workflow management system?
@@ -23,7 +21,6 @@ exercises: 10
 - What are the main components of a Nextflow script?
 - How do I run a Nextflow script?
 
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Workflows
 
@@ -178,8 +175,6 @@ $ cp scripts/introduction/word_count.nf .
 ```groovy
 #!/usr/bin/env nextflow
 
-
-
 /*
 ========================================================================================
     Workflow parameters are written as params.<parameter>
@@ -275,7 +270,7 @@ $ nextflow run word_count.nf
 You should see output similar to the text shown below:
 
 ```output
-N E X T F L O W  ~  version 21.04.3
+N E X T F L O W  ~  version 26.04.2
 Launching `word_count.nf` [fervent_babbage] - revision: c54a707593
 executor >  local (1)
 [21/b259be] process > NUM_LINES (1) [100%] 1 of 1 ✔
@@ -295,7 +290,19 @@ executor >  local (1)
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+::::::::::::::::::::::::::::::::::::::::: callout
 
+## A note on Nextflow syntax and versions
+
+Nextflow has evolved since these materials were first written. A few things worth knowing up front:
+
+- **DSL2 is now the only syntax.** The original "DSL1" was deprecated in 2022 and removed in version 22.12. You may still see the line `nextflow.enable.dsl = 2` at the top of older scripts; this is no longer required and can be removed.
+- **Strict syntax is the default.** From version 26.04 onwards Nextflow uses a stricter language parser that catches common mistakes (inconsistent blocks, ambiguous scoping) when a pipeline starts, rather than failing part-way through a run. The examples in this course are written to comply with it.
+- **Use the VS Code extension.** The official [Nextflow VS Code extension](https://marketplace.visualstudio.com/items?itemName=nextflow.nextflow) provides a language server with syntax highlighting, auto-completion and live linting. It is the recommended way to write Nextflow and will flag errors as you type.
+
+This course was tested with Nextflow `26.04`. You can check your version with `nextflow -version`.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Quick recap
 

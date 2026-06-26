@@ -252,7 +252,7 @@ $ nextflow run script2.nf
 ```
 
 ```output
-N E X T F L O W  ~  version 22.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `script2.nf` [happy_brown] DSL2 - revision: 90e932bb8d
 R N A S E Q - N F   P I P E L I N E
 ===================================
@@ -287,7 +287,7 @@ $ nextflow run script2.nf
 Now the workflow will run successfully.
 
 ```output
-N E X T F L O W  ~  version 22.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `script2.nf` [mad_aryabhata] DSL2 - revision: 811396b67b
 R N A S E Q - N F   P I P E L I N E
 ===================================
@@ -351,7 +351,6 @@ The script `script3.nf` adds a line to create a channel, `read_pairs_ch`, contai
 
 ```groovy 
 //script3.nf
-nextflow.enable.dsl = 2
 
 /*
  * pipeline input parameters
@@ -537,7 +536,7 @@ $ nextflow run script4.nf -resume --reads 'data/yeast/reads/ref*_{1,2}.fq.gz'
 ```
 
 ```output
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `script4.nf` [shrivelled_brenner] - revision: c21df6839e
 R N A S E Q - N F   P I P E L I N E
 ===================================
@@ -580,7 +579,15 @@ tag "quantification on $pair_id"
 Data produced by the workflow during a process will be saved in the working directory, by default a directory named `work`.
 The working directory should be considered a temporary storage space and any data you wish to save at the end of the workflow should be specified in the process output with the final storage location  defined in the  `publishDir` directive.
 
-**Note:** by default the `publishDir` directive creates a symbolic link to the files in the working this behaviour can be changed using the `mode` parameter.
+**Note:** by default the `publishDir` directive creates a symbolic link to the files in the working directory; this behaviour can be changed using the `mode` parameter.
+
+::::::::::::::::::::::::::::::::::::::::: callout
+
+## Modern alternative: workflow outputs
+
+`publishDir` is now **deprecated** in favour of [workflow outputs](05-processes-part2.md#workflow-outputs-recommended) (the `output` / `publish` block, finalised in Nextflow 25.10). We use `publishDir` in this exercise because it remains common in existing pipelines and nf-core modules, but for new pipelines prefer declaring outputs in the entry workflow. See the [migration guide](https://nextflow.io/docs/latest/tutorials/workflow-outputs.html).
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Add a publishDir directive
 
@@ -795,7 +802,7 @@ $ nextflow run script6.nf --reads 'data/yeast/reads/*_{1,2}.fq.gz' -resume
 ```
 
 ```output
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `script6.nf` [small_franklin] - revision: 9062818659
 R N A S E Q - N F   P I P E L I N E
 ===================================

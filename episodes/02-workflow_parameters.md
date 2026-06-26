@@ -52,7 +52,7 @@ $ nextflow run word_count.nf --input 'data/yeast/reads/ref2_2.fq.gz'
 ```
 
 ``` output
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `word_count.nf` [gigantic_woese] - revision: 8acb5cb9b0
 executor >  local (1)
 [26/3cf986] process > NUM_LINES (1) [100%] 1 of 1 ✔
@@ -72,7 +72,7 @@ $ nextflow run word_count.nf --input 'data/yeast/reads/ref2_*.fq.gz'
 This runs the process NUM_LINES twice, once for each file it matches.
 
 ``` output
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `word_count.nf` [tender_lumiere] - revision: 8acb5cb9b0
 executor >  local (2)
 [cc/b6f793] process > NUM_LINES (1) [100%] 2 of 2 ✔
@@ -101,7 +101,7 @@ The string specified on the command line will override the default value
 of the parameter in the script. The output will look like this:
 
 ``` output
-N E X T F L O W  ~  version 20.10.0
+N E X T F L O W  ~  version 26.04.2
 Launching `word_count.nf` [soggy_miescher] - revision: c54a707593
 executor >  local (6)
 [d3/9ca185] process > NUM_LINES (2) [100%] 6 of 6 ✔
@@ -257,7 +257,7 @@ $ nextflow run wc-params.nf -params-file wc-params.json
 
 
 ```output         
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `wc-params.nf` [nostalgic_northcutt] - revision: 2f86c9ac7e
 executor >  local (2)
 [b4/747eaa] process > NUM_LINES (1) [100%] 2 of 2 ✔
@@ -294,7 +294,7 @@ $ nextflow run wc-params.nf -params-file params.json
 
 ```output
 N E X T F L O W 
- version 21.04.0 Launching `wc-params.nf` [small_wiles] - revision:
+ version 26.04.2 Launching `wc-params.nf` [small_wiles] - revision:
 f5ef7b7a01 executor \> local (1) [f3/4fa480] process \> NUM_LINES
 (1) [100%] 1 of 1 ✔ ref3_1.fq.gz 52592 
 ```
@@ -302,9 +302,38 @@ f5ef7b7a01 executor \> local (1) [f3/4fa480] process \> NUM_LINES
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+## Validating parameters with nf-schema
+
+As pipelines gain more parameters, it becomes important to **validate** the values a user supplies — checking that required parameters are present, that file paths exist, and that values are of the right type — and to fail early with a helpful message rather than crashing mid-run.
+
+The modern way to do this is the [`nf-schema`](https://nextflow-io.github.io/nf-schema/) plugin (the successor to the older `nf-validation` plugin, which it replaced in 2024). You describe your parameters in a `nextflow_schema.json` file, enable the plugin, and call `validateParameters()` at the start of your workflow:
+
+```groovy
+//enable the plugin in nextflow.config
+plugins {
+    id 'nf-schema@2.1.1'
+}
+```
+
+```groovy
+//main.nf
+include { validateParameters; paramsSummaryLog } from 'plugin/nf-schema'
+
+workflow {
+    // print errors and exit if any parameter is invalid
+    validateParameters()
+    // log a tidy summary of the parameters actually used
+    log.info paramsSummaryLog(workflow)
+
+    // ... rest of workflow
+}
+```
+
+The `nextflow_schema.json` file can be generated and edited interactively with `nf-core pipelines schema build`. This is the same mechanism every nf-core pipeline uses to validate its inputs, and it is what powers the parameter descriptions you see in `nf-core pipelines launch`.
 
 :::::::::::::::::::::::::::::::::::::::: keypoints
 - Pipeline parameters are specified by prepending the prefix `params` to a variable name, separated by dot character.
 - To specify a pipeline parameter on the command line for a Nextflow run use `--variable_name` syntax.
 - You can add parameters to a JSON formatted file and pass them to the script using option `-params-file`.
+- Use the `nf-schema` plugin and a `nextflow_schema.json` file to validate parameters and fail early with clear errors.
 ::::::::::::::::::::::::::::::::::::::::::::::::::

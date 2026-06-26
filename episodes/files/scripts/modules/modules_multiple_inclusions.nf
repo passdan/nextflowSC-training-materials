@@ -1,4 +1,3 @@
-nextflow.enable.dsl = 2
 
 include { INDEX; QUANT } from './modules/rnaseq-tasks.nf'
 

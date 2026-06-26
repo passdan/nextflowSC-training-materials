@@ -60,7 +60,7 @@ $ nextflow run word_count.nf --input 'data/yeast/reads/temp33*' -resume
 If your previous run was successful the output will look similar to this:
 
 ```output 
-N E X T F L O W  ~  version 20.10.0
+N E X T F L O W  ~  version 26.04.2
 Launching `word_count.nf` [nauseous_leavitt] - revision: fede04a544
 [21/6116de] process > NUM_LINES (4) [100%] 6 of 6, cached: 6 ✔
 temp33_3_2.fq.gz 88956
@@ -137,7 +137,7 @@ How many processes will be cached and how many will run ?
 The output will look similar to this:
 
 ```output 
-N E X T F L O W  ~  version 20.10.0
+N E X T F L O W  ~  version 26.04.2
 Launching `word_count.nf` [gigantic_minsky] - revision: fede04a544
 executor >  local (1)
 [20/cda0d5] process > NUM_LINES (5) [100%] 6 of 6, cached: 5 ✔
@@ -279,7 +279,7 @@ $ nextflow run word_count.nf --input 'data/yeast/reads/temp33*' -w second_work_d
 ```
 
 ```output
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `word_count.nf` [deadly_easley] - revision: fede04a544
 executor >  local (6)
 [9d/0f5e89] process > NUM_LINES (5) [100%] 6 of 6 ✔

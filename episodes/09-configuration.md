@@ -169,7 +169,6 @@ Determine the outcome of the following script executions.
 Given the script `print_message.nf`:
 
 ```groovy
-nextflow.enable.dsl = 2
 
 params.message = 'hello'
 
@@ -424,7 +423,7 @@ $ nextflow run process-selector.nf -c process-selector.config -process.debug
 ```
 
 ```output
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 
 Launching `process-selector.nf` [clever_borg] -
 revision: e765b9e62d
@@ -519,6 +518,58 @@ process {
 }
 ```
 
+### Worked example: an HPC scheduler
+
+A typical configuration for a SLURM cluster sets the executor, the queue (partition) to submit to, and per-process resources. Because the functional logic of the pipeline is unchanged, the *same* pipeline that you developed locally now runs on the cluster simply by supplying this config:
+
+```groovy
+//slurm.config
+process {
+    executor = 'slurm'
+    queue    = 'general'
+    cpus     = 2
+    memory   = 8.GB
+    time     = 2.h
+
+    withLabel: 'big_mem' {
+        cpus   = 16
+        memory = 64.GB
+        time   = 12.h
+    }
+}
+
+executor {
+    queueSize = 50          // max jobs queued at once
+    submitRateLimit = '10/1min'
+}
+```
+
+```bash
+$ nextflow run main.nf -c slurm.config
+```
+
+For a cloud platform such as AWS Batch you would instead set `process.executor = 'awsbatch'`, a `process.queue` pointing at your Batch queue, and an `aws.region`/work directory on S3. The principle is identical: describe *where* to run in config, leave the workflow code untouched.
+
+::::::::::::::::::::::::::::::::::::::::: callout
+
+## Configuration for reproducibility
+
+A few config settings make runs reproducible and portable, and are worth adopting as standard:
+
+- **Pin the Nextflow version** your pipeline needs in the `manifest` scope, so it refuses to run on an incompatible version:
+
+  ```groovy
+  manifest {
+      name = 'my-pipeline'
+      nextflowVersion = '>=24.10.0'
+  }
+  ```
+
+- **Pin pipeline and tool versions** — run remote pipelines at a fixed revision with `-r` (e.g. `nextflow run nf-core/rnaseq -r 3.18.0`), and pin software versions in your container/conda specifications rather than using `latest`.
+- **Keep platform-specific settings in profiles** (see below) so the pipeline stays portable across machines.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
 ## Configuring software requirements
 
 An important feature of Nextflow is the ability to manage
@@ -593,7 +644,7 @@ Each time the `process` is called we are going to run `fastp -A -i ${read} -o ou
 
 1. Create a config file for the Nextflow script `configuration_fastp.nf`.
 
-2. Add a conda directive for the process name `FASTP` that includes the bioconda package `fastp`, version 0.12.4-0.
+2. Add a conda directive for the process name `FASTP` that includes the bioconda package `fastp`, version 0.23.4.
 
 **Hint** You can specify the conda packages using the syntax `<channel>::<package_name>=<version>` e.g. `bioconda::salmon=1.5.2`
 
@@ -601,7 +652,6 @@ Each time the `process` is called we are going to run `fastp -A -i ${read} -o ou
 
 ```groovy 
 // configuration_fastp.nf
-nextflow.enable.dsl = 2
 
 params.input = "data/yeast/reads/ref1_1.fq.gz"
 
@@ -632,7 +682,7 @@ process FASTP {
 // fastp.config
 process {
     withName: 'FASTP' {
-        conda = "bioconda::fastp=0.12.4-0"
+        conda = "bioconda::fastp=0.23.4"
     }
 }
 ```
@@ -642,11 +692,11 @@ nextflow run configure_fastp.nf -c fastp.config
 ```
 
 ```output
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `configuration_fastp.nf` [berserk_jepsen] - revision: 28fadd2486
 executor >  local (1)
 [c1/c207d5] process > FASTP (1) [100%] 1 of 1 ✔
-Creating Conda env: bioconda::fastp=0.12.4-0 [cache /home/training/work/conda/env-a7a3a0d820eb46bc41ebf4f72d955e5f]
+Creating Conda env: bioconda::fastp=0.23.4 [cache /home/training/work/conda/env-a7a3a0d820eb46bc41ebf4f72d955e5f]
 ref1_1.fq.gz 58708
 Read1 before filtering:
 total reads: 14677

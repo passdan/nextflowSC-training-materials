@@ -79,7 +79,7 @@ workflow {
 ```
 
 ```output 
-N E X T F L O W  ~  version 21.10.6
+N E X T F L O W  ~  version 26.04.2
 Launching `p1.nf` [jovial_lavoisier] - revision: a652ef75d4
 executor >  local (16)
 executor >  local (16)
@@ -132,7 +132,7 @@ workflow {
 ```
 
 ```output 
-N E X T F L O W  ~  version 21.10.6
+N E X T F L O W  ~  version 26.04.2
 Launching `process_output_file.nf` [angry_lichterman] - revision: 6a46c69413
 executor >  local (16)
 [95/ec5d62] process > COUNT_CHR_SEQS (13) [100%] 16 of 16 ✔
@@ -193,7 +193,7 @@ $ nextflow run process_output_multiple.nf
 ```
 
 ```output
-N E X T F L O W  ~  version 21.10.6
+N E X T F L O W  ~  version 26.04.2
 Launching `process_output_multiple.nf` [goofy_meitner] - revision: 53cbf7e5a4
 executor >  local (1)
 [21/01e6ba] process > SPLIT_FASTA (1) [100%] 1 of 1 ✔
@@ -428,7 +428,7 @@ workflow{
 ```
 
 ```output
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `process_exercise_tuple.nf` [spontaneous_coulomb] - revision: 06ff22f1a9
 executor >  local (3)
 [75/f4a44d] process > COMBINE_REPS (3) [100%] 3 of 3 ✔
@@ -627,7 +627,7 @@ workflow {
 ```
 
 ```output
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `process_exercise_directives.nf` [sad_rosalind] - revision: 2ccbfa4937
 executor >  local (3)
 [90/de1125] process > FASTQC (ref1) [100%] 3 of 3 ✔
@@ -642,13 +642,90 @@ executor >  local (3)
 
 ## Organising outputs
 
-### PublishDir directive
+Files created by a `process` are stored in a task-specific working directory which is considered temporary. Normally this is under the `work` directory, which can be deleted upon completion. To keep the files you actually care about, Nextflow lets you *publish* selected outputs to a results directory.
 
-Nextflow manages intermediate results from the pipeline's expected outputs independently.
+There are two ways to do this:
+
+1. **Workflow outputs** (the `output` / `publish` block) — the modern, recommended approach, finalised in Nextflow 25.10.
+2. **The `publishDir` directive** — the original approach. It still works but is now deprecated, so you will mostly meet it in existing pipelines.
+
+We cover both below: the modern approach first, then `publishDir` so you can read older code.
+
+### Workflow outputs (recommended)
+
+With workflow outputs, a process simply declares what it produces in its `output:` block — it does **not** decide where those files are published. Instead, you assign the channels you want to keep in a `publish:` section of the entry workflow, and describe where each one goes in a top-level `output {}` block. This keeps publishing logic in one place and out of your reusable processes.
+
+```groovy
+//process_workflow_output.nf
+
+process COMBINE_READS {
+
+  input:
+  tuple val(sample_id), path(reads)
+
+  output:
+  path("${sample_id}.merged.fq.gz")
+
+  script:
+  """
+  cat ${reads} > ${sample_id}.merged.fq.gz
+  """
+}
+
+reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
+
+workflow {
+  main:
+    merged_ch = COMBINE_READS(reads_ch)
+
+  publish:
+    merged_reads = merged_ch
+}
+
+output {
+  merged_reads {
+    path 'merged_reads'
+  }
+}
+```
+
+Here the channel `merged_ch` is assigned to a named output `merged_reads` in the `publish:` section, and the `output {}` block sends it to `results/merged_reads` (the base results directory defaults to `results`, and can be changed with `-output-dir` on the command line). Running it:
+
+```bash
+$ nextflow run process_workflow_output.nf
+```
+
+```output
+N E X T F L O W  ~  version 26.04.2
+Launching `process_workflow_output.nf` [friendly_pauling] - revision: 9b5c315893
+executor >  local (1)
+
+[a1/5956bd] process > COMBINE_READS (1) [100%] 1 of 1 ✔
+```
+
+The merged file is published to `results/merged_reads/`. Because publishing is described in the entry workflow rather than inside the process, the same `COMBINE_READS` process can be reused in other pipelines without dragging its output paths along with it.
+
+::::::::::::::::::::::::::::::::::::::::: callout
+
+## Why the change from `publishDir`?
+
+Defining outputs in the workflow (rather than per-process) means publishing logic lives in one place, processes stay reusable, and channel metadata is easier to handle. `publishDir` still works for now but is deprecated and may be removed in a future release, so prefer workflow outputs for new pipelines. See the official [migration guide](https://nextflow.io/docs/latest/tutorials/workflow-outputs.html).
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+### The publishDir directive (legacy)
+
+::::::::::::::::::::::::::::::::::::::::: callout
+
+## Deprecated
+
+The `publishDir` directive is **deprecated** in favour of [workflow outputs](#workflow-outputs-recommended) (above). It is documented here because you will encounter it throughout existing pipelines, including many nf-core modules.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Files created by a `process` are stored in a task specific working directory which is considered as temporary. Normally this is under the `work` directory, which can be deleted upon completion.
 
-The files you want the workflow to return as results need to be defined in the `process` `output` block and then the output directory specified using the `directive` `publishDir`. More information [here](https://www.nextflow.io/docs/latest/process.html#publishdir).
+With `publishDir`, the files you want the workflow to return as results are defined in the `process` `output` block and the output directory is specified using the `directive` `publishDir` inside the process. More information [here](https://www.nextflow.io/docs/latest/process.html#publishdir).
 
 **Note:** A common mistake is to specify an output directory in the `publishDir` directive while forgetting to specify the files you want to include in the `output` block.
 
@@ -692,7 +769,7 @@ $ nextflow run process_publishDir.nf
 ```
 
 ```output 
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `process_publishDir.nf` [friendly_pauling] - revision: 9b5c315893
 executor >  local (1)
 
@@ -777,7 +854,7 @@ $ nextflow run process_publishDir_semantic.nf
 ```
 
 ```output
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `process_publishDir_semantic.nf` [golden_poisson] - revision: 421a604840
 
 executor >  local (1)
@@ -867,7 +944,7 @@ $ nextflow run process_exercise_publishDir.nf
 ```
 
 ```output 
-N E X T F L O W  ~  version 21.04.0
+N E X T F L O W  ~  version 26.04.2
 Launching `process_exercise_publishDir.nf` [infallible_becquerel] - revision: 4d865241a8
 
 executor >  local (1)

@@ -1,4 +1,3 @@
-nextflow.enable.dsl = 2
 
 include { FASTQC; MULTIQC } from './modules/rnaseq-tasks.nf'
 

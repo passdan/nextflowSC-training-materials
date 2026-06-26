@@ -40,8 +40,8 @@ A list of software with version required for this training is listed below:
 
 |Software|Version|
 |--------|-------|
-|Nextflow|20.10.0|
-|nf-core/tools|1.12.1|
+|Nextflow|24.04.4|
+|nf-core/tools|4.0.2|
 |salmon|1.5|
 |fastqc|0.11|
 |multiqc|1.10|
@@ -54,15 +54,10 @@ The simplest way to install the software for this course is using conda.
 
 To install conda see [here](https://carpentries-incubator.github.io/introduction-to-conda-for-data-scientists/setup/).
 
-An environment file is provided here [environment.yml](https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml)
+An environment file is provided here [environment.yml](../environment.yml)
 
 ```bash
-# You can use either wget or curl to download content from the web via the command line.
-# wget
-wget https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml
 
-# curl 
-curl -L -o environment.yml https://raw.githubusercontent.com/carpentries-incubator/workflows-nextflow/main/episodes/data/environment.yml
 ```
 
 To create the training environment run:

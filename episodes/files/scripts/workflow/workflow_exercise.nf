@@ -1,4 +1,3 @@
-nextflow.enable.dsl = 2
 
 params.reads = 'data/yeast/reads/*_{1,2}.fq.gz'
 

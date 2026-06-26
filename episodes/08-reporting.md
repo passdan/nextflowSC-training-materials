@@ -300,10 +300,33 @@ $ nextflow log elegant_descartes -t template.html > provenance.html
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+## Monitoring runs with the Seqera Platform
+
+The reports above are produced *after* a run. For live monitoring — especially of long pipelines on HPC or cloud — you can stream run status to the [Seqera Platform](https://seqera.io/platform/) (the hosted service formerly called Nextflow Tower). It gives a web dashboard showing each task's status, resource usage, and logs in real time, and lets you launch and manage runs centrally.
+
+To send monitoring data from any run, create a free account, generate an access token, and add the runtime flag:
+
+```bash
+$ export TOWER_ACCESS_TOKEN=<your token>
+$ nextflow run main.nf -with-tower
+```
+
+Or enable it permanently in `nextflow.config`:
+
+```groovy
+tower {
+    enabled = true
+    // endpoint = 'https://api.cloud.seqera.io'  // default
+}
+```
+
+This is entirely optional and the pipeline runs identically without it, but it is the standard way teams keep an eye on production runs.
+
 :::::::::::::::::::::::::::::::::::::::: keypoints
 
 - Nextflow can produce a custom execution report with run information using the `log` command.
 - You can generate a report using the `-t` option specifying a template file.
+- For live monitoring of runs, stream status to the Seqera Platform with `-with-tower` (or `tower.enabled` in config).
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
