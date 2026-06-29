@@ -6,6 +6,7 @@ dependencies:
   - nextflow
   - salmon=1.10.3
   - fastqc=0.12.1
+  - fastp
   - kraken2
   - multiqc
   - nf-core

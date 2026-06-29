@@ -40,10 +40,12 @@ A list of software with version required for this training is listed below:
 
 |Software|Version|
 |--------|-------|
-|Nextflow|24.04.4|
+|Nextflow|26.04|
 |nf-core/tools|4.0.2|
 |salmon|1.5|
 |fastqc|0.11|
+|fastp| |
+|kraken|2.17
 |multiqc|1.10|
 |python|3.8|
 
@@ -56,9 +58,6 @@ To install conda see [here](https://carpentries-incubator.github.io/introduction
 
 An environment file is provided here [environment.yml](../environment.yml)
 
-```bash
-
-```
 
 To create the training environment run:
 

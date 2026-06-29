@@ -1,10 +1,6 @@
----
-title: Getting Started with Nextflow
-teaching: 30
-exercises: 10
----
+# Getting Started with Nextflow
 
-# objectives
+## objectives
 
 - Understand what a workflow management system is.
 - Understand the benefits of using a workflow management system.
