@@ -362,6 +362,22 @@ ch = channel
 
 </details>
 
+## combining mapping & filtering
+--- to complete
+
+```groovy
+fq_ch = channel
+            .fromPath("../data/yeast/reads/*gz")
+            .map ({ it -> [it, it.countFastq(), it.getName()]  })
+            .filter({ file, readcount, name -> 
+                                readcount < 25000  && 
+                                readcount > 14000 &&
+                                name =~ /^ref/})
+            .view()
+```
+
+
+
 #### Converting a list into multiple items
 
 The `flatten` operator transforms a channel in such a way that every item in a `list` or `tuple` is flattened so that each single entry is emitted as a sole element by the resulting channel.
@@ -694,4 +710,17 @@ ref1,data/yeast/reads/ref1_1.fq.gz,data/yeast/reads/ref1_2.fq.gz
 ref2,data/yeast/reads/ref2_1.fq.gz,data/yeast/reads/ref2_2.fq.gz
 ```
 
+Here is an example from an nf-core formatted samplesheet reading
 ```groovy
+Channel
+    .fromPath('samples.csv')
+    .splitCsv(header: true)
+    .map { row ->
+        def meta  = [ id: row.sample_id, single_end: false ]
+        def reads = [ file(row.fastq_1), file(row.fastq_2) ]
+        return [ meta, reads ]
+    }
+    .set { ch_samples }
+
+ch_samples.view()
+```
