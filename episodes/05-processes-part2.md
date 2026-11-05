@@ -490,7 +490,7 @@ For example:
 process PRINTCHR {
   tag "tagging with chr$chr"
   cpus 1
-  echo true
+  debug true
 
   input:
   val chr
@@ -521,13 +521,13 @@ number of cpus 1
 [..truncated..]
 ```
 
-The above process uses the three directives, `tag`, `cpus` and `echo`.
+The above process uses the three directives, `tag`, `cpus` and `debug`.
 
 The `tag` directive to allow you to give a custom tag to each process execution. This tag makes it easier to identify a particular task (executed instance of a process) in a log file or in the execution report.
 
 The second directive `cpus`  allows you to define the number of CPUs required for each task.
 
-The third directive `echo true` prints the stdout to the terminal.
+The third directive `debug true` prints the stdout to the terminal.
 
 We use the Nextflow `task.cpus` variable to capture the number of cpus assigned to a task. This is frequently used to specify the number of threads in a multi-threaded command in the script block.
 

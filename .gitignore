@@ -51,3 +51,4 @@ Gemfile.lock
 .*history
 .nextflow*
 work/*
+myScripts

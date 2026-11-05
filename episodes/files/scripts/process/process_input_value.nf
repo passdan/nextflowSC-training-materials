@@ -6,15 +6,20 @@ process PRINTCHR {
   input:
   val chr
 
+  output:
+  path "${chr}.txt"
+
   script:
   """
-  echo processing chromosome $chr
+  echo processing chromosome $chr >${chr}.txt
   """
 }
 
-chr_ch = Channel.of( 'A' .. 'P' )
+
 
 workflow {
+  chr_ch = Channel.of( 'A' .. 'P' )
 
   PRINTCHR(chr_ch)
+  PRINTCHR.out.view()
 }

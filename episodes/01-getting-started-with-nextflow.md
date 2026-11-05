@@ -1,7 +1,6 @@
 # Getting Started with Nextflow
 
-
-# objectives
+## objectives
 
 - Understand what a workflow management system is.
 - Understand the benefits of using a workflow management system.
