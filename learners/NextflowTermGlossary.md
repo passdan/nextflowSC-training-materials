@@ -18,7 +18,7 @@ A quick reference to the core Nextflow terms used throughout this course.
 : A method applied to a channel to transform, filter, combine, split, or view its contents (e.g. `map`, `collect`, `splitCsv`, `view`).
 
 **Channel factory**
-: A method that creates a channel, e.g. `Channel.of`, `Channel.fromPath`, `Channel.fromFilePairs`.
+: A method that creates a channel, e.g. `channel.of`, `channel.fromPath`, `channel.fromFilePairs`.
 
 **Executor**
 : The component that decides *how and where* a task runs — locally, or on an HPC scheduler (SLURM, SGE, PBS) or cloud platform (AWS Batch, Google Batch, Azure Batch). Set in configuration, independent of the workflow logic.
@@ -54,7 +54,7 @@ A quick reference to the core Nextflow terms used throughout this course.
 : An optional `stub:` block giving a fast dummy implementation of a process, run with `-stub-run` to test workflow structure without executing the real tools.
 
 **DSL2**
-: The current (and only) Nextflow domain-specific language, enabling modules and named workflows. The older DSL1 was removed in version 22.12.
+: The current (and only) Nextflow domain-specific language, enabling modules and named workflows. The older DSL1 was deprecated in version 22.04 and removed in 23.04.
 
 **nf-core**
 : A community project providing curated, peer-reviewed, best-practice Nextflow pipelines and the `nf-core` helper tools.

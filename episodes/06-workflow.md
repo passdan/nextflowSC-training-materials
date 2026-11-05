@@ -1,8 +1,4 @@
----
-title: Workflow
-teaching: 20
-exercises: 20
----
+# Workflows
 
 ## Objectives
 

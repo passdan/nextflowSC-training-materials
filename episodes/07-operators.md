@@ -1,8 +1,4 @@
----
-title: Operators
-teaching: 30
-exercises: 10
----
+# Operators
 
 ## Objectives
 
@@ -409,7 +405,7 @@ The above snippet prints:
 3
 ```
 
-This is similar to the channel factory `Channel.fromList`.
+This is similar to the channel factory `channel.fromList`.
 
 #### Converting the contents of a channel to a single list item.
 
@@ -688,7 +684,7 @@ If you want to split a `tab` delimited file or file separated by another charact
 For examples,
 
 ```groovy 
-Channel.of("val1\tval2\tval3\nval4\tval5\tval6\n")
+channel.of("val1\tval2\tval3\nval4\tval5\tval6\n")
   .splitCsv(sep: "\t")
   .view()
 ```

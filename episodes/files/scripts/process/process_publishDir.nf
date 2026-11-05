@@ -16,7 +16,7 @@ process COMBINE_READS {
   """
 }
 
-reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
+reads_ch = channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
 
 
 workflow {

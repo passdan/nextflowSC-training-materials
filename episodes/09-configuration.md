@@ -162,7 +162,7 @@ workflow {
 }
 
 process PRINT_MESSAGE {
-    echo true
+    debug true
 
     input:
     val my_message
@@ -351,7 +351,7 @@ where `P1` and `P2` are defined as follows:
 
 
 process P1 {
-    echo true
+    debug true
 
     script:
     """
@@ -360,7 +360,7 @@ process P1 {
 }
 
 process P2 {
-    echo true
+    debug true
 
     script:
     """
@@ -620,7 +620,7 @@ Each time the `process` is called we are going to run `fastp -A -i ${read} -o ou
 params.input = "data/yeast/reads/ref1_1.fq.gz"
 
 workflow {
-    FASTP( Channel.fromPath( params.input ) ).view()
+    FASTP( channel.fromPath( params.input ) ).view()
 }
 
 process FASTP {

@@ -6,7 +6,7 @@ workflow {
 }
 
 process PRINT_MESSAGE {
-    echo true
+    debug true
 
     input:
     val my_message

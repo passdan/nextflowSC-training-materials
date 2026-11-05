@@ -1,8 +1,4 @@
----
-title: Processes Part 2
-teaching: 30
-exercises: 10
----
+# Processes - Part 2
 
 ## Objectives
 
@@ -293,7 +289,7 @@ process TUPLEINPUT{
   """
 }
 
-reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
+reads_ch = channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
 
 workflow {
   TUPLEINPUT(reads_ch)
@@ -336,7 +332,7 @@ process COMBINE_FQ {
   """
 }
 
-reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
+reads_ch = channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
 
 workflow {
   COMBINE_FQ(reads_ch)
@@ -378,7 +374,7 @@ process COMBINE_REPS {
   """
 }
 
-reads_ch = Channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*.fq.gz',size:-1)
+reads_ch = channel.fromFilePairs('data/yeast/reads/ref{1,2,3}*.fq.gz',size:-1)
 
 workflow{
   COMBINE_REPS(reads_ch)
@@ -407,7 +403,7 @@ process COMBINE_REPS {
   """
 }
 
-reads_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2,3}.fq.gz',size:-1)
+reads_ch = channel.fromFilePairs('data/yeast/reads/ref*_{1,2,3}.fq.gz',size:-1)
 
 workflow{
   COMBINE_REPS(reads_ch)
@@ -428,6 +424,8 @@ executor >  local (3)
 </details>
 
 ## Conditional execution of a process
+
+> **Deprecated.** The process `when` section was deprecated in Nextflow 26.10. It still works and appears throughout existing pipelines, so it is worth recognising, but new workflows should put the condition in the calling workflow (filter the channel before the process is called) or use the `process.when` config setting to disable a process.
 
 The `when` declaration allows you to define a condition that must be verified in order to execute the process. This can be any expression that evaluates a boolean value; `true` or `false`.
 
@@ -568,7 +566,7 @@ process FASTQC {
   """
 }
 
-read_pairs_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
+read_pairs_ch = channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
 
 workflow {
   FASTQC(read_pairs_ch)
@@ -600,7 +598,7 @@ process FASTQC {
   """
 }
 
-read_pairs_ch = Channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
+read_pairs_ch = channel.fromFilePairs('data/yeast/reads/ref*_{1,2}.fq.gz')
 
 workflow {
   FASTQC(read_pairs_ch)
@@ -652,7 +650,7 @@ process COMBINE_READS {
   """
 }
 
-reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
+reads_ch = channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
 
 workflow {
   main:
@@ -727,7 +725,7 @@ process COMBINE_READS {
   """
 }
 
-reads_ch = Channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
+reads_ch = channel.fromFilePairs('data/yeast/reads/ref1_{1,2}.fq.gz')
 
 
 workflow {

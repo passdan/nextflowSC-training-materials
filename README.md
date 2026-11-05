@@ -1,10 +1,10 @@
-# Introduction to Nextflow 2026 - Bangor Edition
+# Introduction to Nextflow 2026 
 
 Instructor: Dr. Daniel Pass, Compass Bioinformatics
 
 Welcome to the course! In this github repository we have a range of materials which we are going to use over this three day course:
-1. This overview of the course and materials
-2. Introduction to Nextflow teaching materials prepared by the Nextflow Developers & Software Carpentry team (of which this project is a fork of) with updates and modifications to reach 2026 standards!. [See their full summary here](README-orig.md)
+1. This schedule and overview of the course and materials
+2. Introduction to Nextflow teaching materials in the [Episodes](episodes) folder prepared by the Nextflow Developers & Software Carpentry team (2021, of which this project is a fork of) with updates and modifications to reach 2026 standards!. [See their full summary here](https://https://github.com/carpentries-incubator/workflows-nextflow/)
 3. Additional links to documentation, code examples, and exercises
 4. Links to presentations & further materials
 5. ["Correct" answers](episodes/files/scripts) to the workshop exercises
@@ -21,7 +21,6 @@ We will be spending three days going from basic introductions to completing a si
 - [Channels](episodes/03-channels.md)
 - [Processes](episodes/04-processes-part1.md)
   - [(Further Info) Directives](https://www.nextflow.io/docs/latest/process.html#directives)
-  - [(Further Info) PublishDir](https://www.nextflow.io/docs/latest/reference/process.html#publishdir)
 ### Day 2
 - [Workflows](episodes/06-workflow.md)
   - [(Further Info) Named Workflows aka subworkflows](https://www.nextflow.io/docs/latest/workflow.html#named-workflows)
@@ -32,10 +31,13 @@ We will be spending three days going from basic introductions to completing a si
 - [DIY: Making your first pipeline](episodes/11-Simple_Rna-Seq_pipeline.md)
 ### Day 3
 - [Executors & environments](episodes/09-configuration.md)
-- [Modules & code organisation](episodes/13-modules.md)
-- [Debugging & troubleshooting](episodes/14-debugging.md)
-- [Testing with nf-test](episodes/15-testing-nf-test.md)
 - [nf-core](episodes/12-nfcore.md)
   - [Pipelines](https://nf-co.re/pipelines)
   - [Modules](https://nf-co.re/modules)
+- [DIY: Improving your first pipeline!](episodes/11-Simple_Rna-Seq_pipeline.md)
 - [What's Next(flow)](https://training.nextflow.io/) - the official Seqera training portal for continued learning
+
+### Extension materials
+- [Modules & code organisation](episodes/13-modules.md)
+- [Debugging & troubleshooting](episodes/14-debugging.md)
+- [Testing with nf-test](episodes/15-testing-nf-test.md)

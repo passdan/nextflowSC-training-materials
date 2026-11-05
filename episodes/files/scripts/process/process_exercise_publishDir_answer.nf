@@ -17,7 +17,7 @@ process MERGE_REPS {
   """
 }
 
-reads_ch = Channel.fromFilePairs(params.reads,checkIfExists:true,size:6)
+reads_ch = channel.fromFilePairs(params.reads,checkIfExists:true,size:6)
 
 workflow {
   MERGE_REPS(reads_ch)

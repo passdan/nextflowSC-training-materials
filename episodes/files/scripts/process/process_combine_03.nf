@@ -1,7 +1,7 @@
 
 process COMBINE {
 
-    echo true
+    debug true
 
     input:
     val x
@@ -15,7 +15,7 @@ process COMBINE {
 
 
 workflow {
-    ch_num = Channel.value( 1 )
-    ch_letters = Channel.of( 'a', 'b', 'c' )
+    ch_num = channel.value( 1 )
+    ch_letters = channel.of( 'a', 'b', 'c' )
     COMBINE( ch_num, ch_letters )
 }

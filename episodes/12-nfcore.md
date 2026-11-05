@@ -1,8 +1,5 @@
----
-title: Deploying nf-core pipelines
-teaching: 30
-exercises: 10
----
+# Deploying nf-core pipelines
+
 
 ## Objectives
 

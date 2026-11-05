@@ -13,6 +13,6 @@ process NUMLINES {
 
 
 workflow {
-    reads_ch = Channel.fromPath( 'data/yeast/reads/ref*.fq.gz')
+    reads_ch = channel.fromPath( 'data/yeast/reads/ref*.fq.gz')
     NUMLINES( reads_ch )
 }

@@ -96,8 +96,8 @@ process MULTIQC {
 
 
 workflow {
-    read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
-    transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
+    read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
+    transcriptome_ch = channel.fromPath( params.transcriptome, checkIfExists:true )
 
     index_ch = INDEX( transcriptome_ch )
     quant_ch = QUANT( index_ch, read_pairs_ch )

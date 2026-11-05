@@ -1,8 +1,4 @@
----
-title: "Processes"
-teaching: 30
-exercises: 15
----
+# Processes - Part 1
 
 ## Objectives
 
@@ -145,7 +141,7 @@ The previous example was a simple `process` with no defined inputs and outputs t
 1. **directives - 0, 1, or more**: allow the definition of optional settings that affect the execution of the current process e.g. the number of cpus a task uses and the amount of memory allocated.
 1. **inputs - 0, 1, or more**: Define the input dependencies, usually channels, which determines the number of times a process is executed.
 1. **outputs - 0, 1, or more**: Defines the output channels used by the process to send results/data produced by the process.
-1. **when clause - optional**: Allows you to define a condition that must be verified in order to execute the process.
+1. **when clause - optional, deprecated**: Allows you to define a condition that must be verified in order to execute the process. Deprecated in Nextflow 26.10. Put the conditional logic in the calling workflow instead, or use the `process.when` config setting.
 1. **script block - required**: A statement within quotes that defines the commands that are executed by the process to carry out its task.
 
 The syntax is defined as follows:
@@ -514,6 +510,8 @@ workflow {
 
 ### Shell
 
+> **Deprecated.** The process `shell` section was deprecated in Nextflow 25.04 and the `script` section should be used instead. It is covered here because you will meet it in existing pipelines, but do not write new processes this way. To use a Bash variable inside a `script` block, escape the dollar sign as `\$my_bash_variable`.
+
 Another alternative is to use a `shell` block definition instead of `script`.
 When using the `shell` statement Bash variables are referenced in the normal way `$my_bash_variable`;
 However, the `shell` statement uses a different syntax for Nextflow variable substitutions: `!{nextflow_variable}`, which is needed to use both Nextflow and Bash variables in the same script.
@@ -662,7 +660,7 @@ process PRINTCHR {
   """
 }
 
-chr_ch = Channel.of( 'A' .. 'P' )
+chr_ch = channel.of( 'A' .. 'P' )
 
 workflow {
 
@@ -714,7 +712,7 @@ process NUMLINES {
     """
 }
 
-reads_ch = Channel.fromPath( 'data/yeast/reads/ref*.fq.gz' )
+reads_ch = channel.fromPath( 'data/yeast/reads/ref*.fq.gz' )
 
 workflow {
   NUMLINES(reads_ch)
@@ -761,7 +759,7 @@ process NUMLINES {
     """
 }
 
-reads_ch = Channel.fromPath( 'data/yeast/reads/ref*.fq.gz' )
+reads_ch = channel.fromPath( 'data/yeast/reads/ref*.fq.gz' )
 
 workflow {
   NUMLINES(reads_ch)
@@ -790,7 +788,7 @@ sample.fq.gz 58708
 
 ## File Objects as inputs
 
-When a process declares an input file, the corresponding channel elements must be file objects, i.e. created with the path helper function from the file specific channel factories, e.g. `Channel.fromPath` or `Channel.fromFilePairs`.
+When a process declares an input file, the corresponding channel elements must be file objects, i.e. created with the path helper function from the file specific channel factories, e.g. `channel.fromPath` or `channel.fromFilePairs`.
 
 ## Exercise: Add input channel
 
@@ -884,8 +882,8 @@ process COMBINE {
   """
 }
 
-num_ch = Channel.of(1, 2, 3)
-letters_ch = Channel.of('a', 'b', 'c')
+num_ch = channel.of(1, 2, 3)
+letters_ch = channel.of('a', 'b', 'c')
 
 workflow {
   COMBINE(num_ch, letters_ch)
@@ -929,8 +927,8 @@ process COMBINE {
   """
 }
 
-ch_num = Channel.of(1, 2)
-ch_letters = Channel.of('a', 'b', 'c', 'd')
+ch_num = channel.of(1, 2)
+ch_letters = channel.of('a', 'b', 'c', 'd')
 
 workflow {
   COMBINE(ch_num, ch_letters)
@@ -951,7 +949,7 @@ In the above example the process is executed only two times, because when a queu
 
 ### Value channels and process termination
 
-**Note** however that value channels, `Channel.value`, do not affect the process termination.
+**Note** however that value channels, `channel.value`, do not affect the process termination.
 
 To better understand this behaviour compare the previous example with the following one:
 
@@ -969,8 +967,8 @@ process COMBINE {
   echo $x and $y
   """
 }
-ch_num = Channel.value(1)
-ch_letters = Channel.of('a', 'b', 'c')
+ch_num = channel.value(1)
+ch_letters = channel.of('a', 'b', 'c')
 
 workflow {
   COMBINE(ch_num, ch_letters)
@@ -1068,8 +1066,8 @@ process COMBINE {
   """
 }
 
-ch_num = Channel.of(1, 2)
-ch_letters = Channel.of('a', 'b', 'c', 'd')
+ch_num = channel.of(1, 2)
+ch_letters = channel.of('a', 'b', 'c', 'd')
 
 workflow {
   COMBINE(ch_num, ch_letters)

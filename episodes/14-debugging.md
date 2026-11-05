@@ -1,8 +1,5 @@
----
-title: Debugging and troubleshooting
-teaching: 30
-exercises: 15
----
+# Debugging and troubleshooting
+
 
 ## Questions
 

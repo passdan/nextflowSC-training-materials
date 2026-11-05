@@ -18,7 +18,7 @@ process PRINTCHR {
 
 
 workflow {
-  chr_ch = Channel.of( 'A' .. 'P' )
+  chr_ch = channel.of( 'A' .. 'P' )
 
   PRINTCHR(chr_ch)
   PRINTCHR.out.view()

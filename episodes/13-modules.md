@@ -1,8 +1,5 @@
----
-title: Modules and code organisation
-teaching: 30
-exercises: 15
----
+# Modules and code organisation
+
 
 ## Questions
 
@@ -59,7 +56,7 @@ To use a process defined in a module, use the `include` statement at the top of 
 include { INDEX } from './modules/rnaseq-tasks.nf'
 
 workflow {
-    transcriptome_ch = Channel.fromPath('data/yeast/transcriptome/*.fa.gz')
+    transcriptome_ch = channel.fromPath('data/yeast/transcriptome/*.fa.gz')
     INDEX( transcriptome_ch )
 }
 ```
@@ -83,8 +80,8 @@ include { INDEX; QUANT } from './modules/rnaseq-tasks.nf'
 params.reads = 'data/yeast/reads/ref1_{1,2}.fq.gz'
 
 workflow {
-    transcriptome_ch = Channel.fromPath('data/yeast/transcriptome/*.fa.gz')
-    read_pairs_ch    = Channel.fromFilePairs(params.reads)
+    transcriptome_ch = channel.fromPath('data/yeast/transcriptome/*.fa.gz')
+    read_pairs_ch    = channel.fromFilePairs(params.reads)
 
     index_ch = INDEX(transcriptome_ch)
     QUANT(index_ch, read_pairs_ch)

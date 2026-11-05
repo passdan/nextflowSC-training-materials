@@ -34,7 +34,7 @@ process PARSEZIP {
 
 
 workflow {
-    read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists: true )
+    read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists: true )
     //connect process FASTQC and PARSEZIP
     //remember to use the collect operator on the FASTQC output
 }

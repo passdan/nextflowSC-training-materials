@@ -173,7 +173,7 @@ params.input = "data/yeast/reads/ref1_1.fq.gz"
 ========================================================================================
 */
 
-input_ch = Channel.fromPath(params.input)
+input_ch = channel.fromPath(params.input)
 
 /*
 ========================================================================================
@@ -270,7 +270,8 @@ executor >  local (1)
 
 Nextflow has evolved since these materials were first written. A few things worth knowing up front:
 
-- **DSL2 is now the only syntax.** The original "DSL1" was deprecated in 2022 and removed in version 22.12. You may still see the line `nextflow.enable.dsl = 2` at the top of older scripts; this is no longer required and can be removed.
+- **DSL2 is now the only syntax.** The original "DSL1" was deprecated in version 22.04 and removed in 23.04. You may still see the line `nextflow.enable.dsl = 2` at the top of older scripts; the feature flag itself was deprecated in 25.04 and can be removed.
+- **Channel factories are written in lower case.** Current Nextflow uses `channel.of`, `channel.fromPath` and so on. The capitalised `Channel` form was deprecated in version 25.10 and still works, but you will see the lower-case form in the documentation and in nf-core code.
 - **Strict syntax is the default.** From version 26.04 onwards Nextflow uses a stricter language parser that catches common mistakes (inconsistent blocks, ambiguous scoping) when a pipeline starts, rather than failing part-way through a run. The examples in this course are written to comply with it.
 - **Use the VS Code extension.** The official [Nextflow VS Code extension](https://marketplace.visualstudio.com/items?itemName=nextflow.nextflow) provides a language server with syntax highlighting, auto-completion and live linting. It is the recommended way to write Nextflow and will flag errors as you type.
 

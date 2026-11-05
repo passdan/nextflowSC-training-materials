@@ -1,8 +1,4 @@
----
-title: Reporting
-teaching: 20
-exercises: 5
----
+#Reporting
 
 ## Objectives
 

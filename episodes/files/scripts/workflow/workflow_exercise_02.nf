@@ -33,5 +33,5 @@ process MERGEFLAGSTAT {
 }
 
 workflow {
-    bam_ch = Channel.fromPath( params.bams )
+    bam_ch = channel.fromPath( params.bams )
 }

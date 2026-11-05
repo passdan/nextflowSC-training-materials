@@ -341,7 +341,7 @@ log.info """\
          .stripIndent()
 
 
-read_pairs_ch = Channel.fromFilePairs( params.reads )
+read_pairs_ch = channel.fromFilePairs( params.reads )
 ```
 
 We can view the contents  of the `read_pairs_ch` by adding the following statement as the last line:
@@ -383,7 +383,7 @@ We can also add a argument, `checkIfExists: true` , to the `fromFilePairs` chann
 ```groovy 
 //script3.nf
 [..truncated..]
-read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists: true )
+read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists: true )
 ```
 
 If we now run the script with the `--reads` parameter `data/yeast/reads/*_1,2}.fq.gz`
@@ -408,7 +408,7 @@ No such file: data/yeast/reads/*_1,2}.fq.gz
 <summary><b>Solution</b></summary>
 
 ```groovy 
-read_pairs_ch =Channel.fromFilePairs(params.reads, checkIfExists: true)
+read_pairs_ch =channel.fromFilePairs(params.reads, checkIfExists: true)
 ```
 
 ```bash 
@@ -468,8 +468,8 @@ process QUANT {
 }
 ..truncated..
 workflow {
-  read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
-  transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
+  read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
+  transcriptome_ch = channel.fromPath( params.transcriptome, checkIfExists:true )
 
   index_ch=INDEX(transcriptome_ch)
   quant_ch=QUANT(index_ch,read_pairs_ch)
@@ -605,8 +605,8 @@ process FASTQC {
 [..truncated..]
 
 workflow {
-  read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
-  transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
+  read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
+  transcriptome_ch = channel.fromPath( params.transcriptome, checkIfExists:true )
 
   index_ch=INDEX(transcriptome_ch)
   quant_ch=QUANT(index_ch,read_pairs_ch)
@@ -634,8 +634,8 @@ $ nextflow run script5.nf -resume
 
 ```groovy
 workflow {
-read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
-transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
+read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
+transcriptome_ch = channel.fromPath( params.transcriptome, checkIfExists:true )
 
 index_ch = INDEX( transcriptome_ch )
 quant_ch=QUANT(index_ch,read_pairs_ch)
@@ -664,8 +664,8 @@ Therefore, we will need to combine the `FASTQC` and `QUANT` outputs using:
 
 ```groovy
 //example of the mix operator
-ch1 = Channel.of(1,2)
-ch2 = Channel.of('a')
+ch1 = channel.of(1,2)
+ch2 = channel.of('a')
 ch1.mix(ch2).view()
 ```
 
@@ -679,7 +679,7 @@ a
 
 ```groovy
 //example of the collect operator
-ch1 = Channel.of(1,2,3)
+ch1 = channel.of(1,2,3)
 ch1.collect().view()
 ```
 
@@ -731,8 +731,8 @@ process MULTIQC {
 
 
 workflow {
-  read_pairs_ch = Channel.fromFilePairs( params.reads, checkIfExists:true )
-  transcriptome_ch = Channel.fromPath( params.transcriptome, checkIfExists:true )
+  read_pairs_ch = channel.fromFilePairs( params.reads, checkIfExists:true )
+  transcriptome_ch = channel.fromPath( params.transcriptome, checkIfExists:true )
 
   index_ch=INDEX(transcriptome_ch)
   quant_ch=QUANT(index_ch,read_pairs_ch)

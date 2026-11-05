@@ -1,8 +1,4 @@
----
-title: Testing pipelines with nf-test
-teaching: 30
-exercises: 20
----
+# Testing pipelines with nf-test
 
 ## Questions
 
