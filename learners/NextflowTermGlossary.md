@@ -1,7 +1,3 @@
----
-title: Reference & Glossary
----
-
 ## Glossary
 
 A quick reference to the core Nextflow terms used throughout this course.
